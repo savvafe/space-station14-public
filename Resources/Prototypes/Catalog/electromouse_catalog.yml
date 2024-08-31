@@ -1,0 +1,9 @@
+- type: listing
+  id: DebugElectrom
+  name: debug name 4
+  description: debug desc 4
+  productAction: ActionScream
+  categories:
+    - ElectromouseAbilities
+  cost:
+    StolenEnergy: 1

@@ -1,0 +1,9 @@
+- type: entity
+  id: ActionElectroMouseShop
+  name: Shop
+  description: Opens the ability shop.
+  noSpawn: true
+  components:
+  - type: InstantAction
+    icon: Interface/Actions/shop.png
+    event: !type:ElectroMouseShopActionEvent

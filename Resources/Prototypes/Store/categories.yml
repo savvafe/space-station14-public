@@ -68,3 +68,7 @@
   id: RevenantAbilities
   name: store-category-abilities
 
+#electromouse
+- type: storeCategory
+  id: ElectromouseAbilities
+  name: store-category-abilities
