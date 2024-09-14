@@ -2,7 +2,7 @@
   id: DebugElectrom
   name: debug name 4
   description: debug desc 4
-  productAction: ActionScream
+  productAction: ActionElectroMouseAddEnergy
   categories:
     - ElectromouseAbilities
   cost:

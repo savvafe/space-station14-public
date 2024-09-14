@@ -128,3 +128,5 @@
   - type: Store
     categories:
     - ElectromouseAbilities
+    currencyWhitelist:
+    - StolenEnergy

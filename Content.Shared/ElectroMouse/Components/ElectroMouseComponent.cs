@@ -16,38 +16,17 @@ public sealed partial class ElectroMouseComponent : Component
     /// as health and is regenerated.
     /// </summary>
     [ViewVariables(VVAccess.ReadWrite)]
-    public FixedPoint2 Energy = 75;
+    public FixedPoint2 Energy = 150;
 
     [DataField("stolenEssenceCurrencyPrototype", customTypeSerializer: typeof(PrototypeIdSerializer<CurrencyPrototype>))]
-    public string StolenEssenceCurrencyPrototype = "StolenEnergy";
+    public string StolenEnergyCurrencyPrototype = "StolenEnergy";
 
     /// <summary>
     /// Prototype to spawn when the entity dies.
     /// </summary>
     [DataField("spawnOnDeathPrototype", customTypeSerializer:typeof(PrototypeIdSerializer<EntityPrototype>))]
-    public string SpawnOnDeathPrototype = "Ectoplasm";
+    public string SpawnOnDeathPrototype = "AnomalyCoreElectroMouse";
 
-    /// <summary>
-    /// The entity's current max amount of essence. Can be increased
-    /// through harvesting player souls.
-    /// </summary>
-    [ViewVariables(VVAccess.ReadWrite), DataField("maxEssence")]
-    public FixedPoint2 EssenceRegenCap = 75;
-
-    /// <summary>
-    /// The coefficient of damage taken to actual health lost.
-    /// </summary>
-    [ViewVariables(VVAccess.ReadWrite), DataField("damageToEssenceCoefficient")]
-    public float DamageToEssenceCoefficient = 0.75f;
-
-    /// <summary>
-    /// The amount of essence passively generated per second.
-    /// </summary>
-    [ViewVariables(VVAccess.ReadWrite), DataField("essencePerSecond")]
-    public FixedPoint2 EssencePerSecond = 0.5f;
-
-    [ViewVariables]
-    public float Accumulator = 0;
 
     // Here's the gist of the harvest ability:
     // Step 1: The revenant clicks on an entity to "search" for it's soul, which creates a doafter.

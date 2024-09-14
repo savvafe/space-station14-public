@@ -7,3 +7,13 @@
   - type: InstantAction
     icon: Interface/Actions/shop.png
     event: !type:ElectroMouseShopActionEvent
+
+- type: entity
+  id: ActionElectroMouseAddEnergy
+  name: Shop
+  description: AddEnergy
+  noSpawn: true
+  components:
+  - type: InstantAction
+    icon: Interface/Actions/shop.png
+    event: !type:ElectroMouseAddEnergyEvent
