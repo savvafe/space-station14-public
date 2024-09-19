@@ -1,7 +1,8 @@
 - type: entity
-  name: Electromouse
+  name: Мышь
   parent: SimpleMobBase
   id: ElectroMouse
+  suffix: ElectroMouse
   description: Squeak!
   components:
   - type: Body
@@ -10,8 +11,8 @@
     makeSentient: true
     allowSpeech: true
     allowMovement: true
-    name: ghost-role-information-mouse-name
-    description: ghost-role-information-mouse-description
+    name: ghost-role-information-elmouse-name
+    description: ghost-role-information-elmouse-description
   - type: GhostTakeoverAvailable
   - type: Speech
     speechSounds: Squeak

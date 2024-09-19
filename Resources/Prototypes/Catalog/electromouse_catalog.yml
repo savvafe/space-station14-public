@@ -7,13 +7,19 @@
     - ElectromouseAbilities
   cost:
     StolenEnergy: 50
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
 
 - type: listing
   id: ElectromDash
   name: Dash
-  description: Teleport to anywhere you can see.
+  description: Teleport you 2 tiles ahead.
   productAction: ActionElectroDash
   categories:
   - ElectromouseAbilities
   cost:
     StolenEnergy: 5
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1

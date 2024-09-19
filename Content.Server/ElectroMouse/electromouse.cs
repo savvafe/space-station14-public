@@ -24,11 +24,8 @@ using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using System.Linq;
 using Content.Shared.Doors.Components;
-using Content.Server.Chemistry.ReactionEffects;
-using Robust.Shared.Map;
-using Content.Shared.Chemistry.Reagent;
 using Robust.Shared.Audio.Systems;
-using Content.Shared.Ninja.Components;
+using Content.Shared.Damage;
 
 namespace Content.Server.ElectroMouse.EntitySystems;
 
@@ -49,9 +46,6 @@ public sealed partial class ElectroMouseSystem : EntitySystem
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly SharedInteractionSystem _interact = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [DataField("_dashComp")]
-    private readonly DashAbilityComponent _dashComp = default!;
-    [DataField("coordinates")]
     public Vector2? Coordinates;
     [ValidatePrototypeId<EntityPrototype>]
     private const string RevenantShopId = "ActionElectroMouseShop";
@@ -76,7 +70,6 @@ public sealed partial class ElectroMouseSystem : EntitySystem
         _store.ToggleUi(uid, uid, store);
     }
 
-
     private void OnMapInit(EntityUid uid, ElectroMouseComponent component, MapInitEvent args)
     {
         _action.AddAction(uid, ref component.Action, RevenantShopId);
@@ -92,7 +85,6 @@ public sealed partial class ElectroMouseSystem : EntitySystem
         var xformSystem = entityManager.System<TransformSystem>();
 
         var energy = 2;
-        var user = args.Performer;
 
         var mapPosition = xformSystem.GetWorldPosition(uid);
         var reactionBounds = new Box2(mapPosition - new Vector2(energy, energy), mapPosition + new Vector2(energy, energy));
@@ -106,7 +98,7 @@ public sealed partial class ElectroMouseSystem : EntitySystem
                 uid,
                 (Vector2) newPosition
             );
-        _audio.PlayPredicted(_dashComp.BlinkSound, user, user);
+        _audio.PlayPvs(comp.BlinkSound, uid);
     }
     private static Vector2 GetPositionFromRotation(Box2 reactionBounds, float energy, EntityUid uid)
     {
@@ -127,7 +119,8 @@ public sealed partial class ElectroMouseSystem : EntitySystem
 
         if (!allowDeath && component.Energy + amount <= 0)
             return false;
-
+        if (!HasComp<DamageableComponent>(uid))
+            return false;
         component.Energy += amount;
 
         if (TryComp<StoreComponent>(uid, out var store))
@@ -135,11 +128,6 @@ public sealed partial class ElectroMouseSystem : EntitySystem
 
         _alerts.ShowAlert(uid, AlertType.Essence, (short) Math.Clamp(Math.Round(component.Energy.Float() / 10f), 0, 16));
 
-        if (component.Energy <= 0)
-        {
-            Spawn(component.SpawnOnDeathPrototype, Transform(uid).Coordinates);
-            QueueDel(uid);
-        }
         return true;
     }
     private void AddEnergy(EntityUid uid, ElectroMouseComponent component, int energ)
