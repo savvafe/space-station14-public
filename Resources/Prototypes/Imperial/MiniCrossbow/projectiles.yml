@@ -12,7 +12,7 @@
   - type: Sprite
     noRot: false
     sprite: Imperial/MiniCrossbow.rsi
-    color: "#228B22"
+    color: "#F1F1F1"
     layers:
     - state: cbbolt
       shader: unshaded
@@ -30,6 +30,7 @@
   - type: StaminaDamageOnCollide
     damage: 45
   - type: Projectile
+    impactEffect: BulletImpactEffectGreenDisabler
     damage:
       types:
         Poison: 10
@@ -37,3 +38,22 @@
   - type: StunOnCollide
     stunAmount: 1
     knockdownAmount: 1
+
+- type: entity
+  id: BulletImpactEffectGreenDisabler
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TimedDespawn
+    lifetime: 0.2
+  - type: Sprite
+    drawdepth: Effects
+    layers:
+    - shader: unshaded
+      map: ["enum.EffectLayers.Unshaded"]
+      sprite: Objects/Weapons/Guns/Projectiles/projectiles_tg.rsi
+      state: impact_laser_greyscale
+      color: green
+  - type: EffectVisuals
+  - type: Tag
+    tags:
+    - HideContextMenu
