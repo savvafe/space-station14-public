@@ -1,4 +1,5 @@
 using System.Numerics;
+using Content.Shared.Chemistry.Reagent;
 using Content.Shared.FixedPoint;
 using Content.Shared.Store;
 using Content.Shared.Whitelist;
@@ -16,7 +17,7 @@ public sealed partial class ElectroMouseComponent : Component
     /// as health and is regenerated.
     /// </summary>
     [ViewVariables(VVAccess.ReadWrite)]
-    public FixedPoint2 Energy = 150;
+    public FixedPoint2 Energy = 1;
 
     [DataField("stolenEssenceCurrencyPrototype", customTypeSerializer: typeof(PrototypeIdSerializer<CurrencyPrototype>))]
     public string StolenEnergyCurrencyPrototype = "StolenEnergy";
@@ -26,7 +27,6 @@ public sealed partial class ElectroMouseComponent : Component
     /// </summary>
     [DataField("spawnOnDeathPrototype", customTypeSerializer:typeof(PrototypeIdSerializer<EntityPrototype>))]
     public string SpawnOnDeathPrototype = "AnomalyCoreElectroMouse";
-
 
     // Here's the gist of the harvest ability:
     // Step 1: The revenant clicks on an entity to "search" for it's soul, which creates a doafter.

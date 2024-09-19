@@ -8,7 +8,6 @@ using Content.Shared.Revenant;
 using Content.Shared.FixedPoint;
 using Content.Shared.ElectroMouse.Components;
 using Content.Shared.Interaction;
-using Content.Server.Revenant.Components;
 using Content.Server.Power.Components;
 using Content.Shared.DoAfter;
 using Content.Shared.Popups;
@@ -19,11 +18,22 @@ using Robust.Server.GameObjects;
 using Content.Shared.Revenant.Components;
 using Content.Shared.Stunnable;
 using Content.Shared.StatusEffect;
+using Content.Server.Light.Components;
+using Content.Server.Ghost;
+using Content.Shared.Mobs.Components;
+using Content.Shared.Mobs.Systems;
+using System.Linq;
+using Content.Shared.Doors.Components;
+using Content.Server.Chemistry.ReactionEffects;
+using Robust.Shared.Map;
+using Content.Shared.Chemistry.Reagent;
+using Robust.Shared.Audio.Systems;
+using Content.Shared.Ninja.Components;
 
 namespace Content.Server.ElectroMouse.EntitySystems;
 
 
-public sealed partial class RevenantSystem : EntitySystem
+public sealed partial class ElectroMouseSystem : EntitySystem
 {
     [Dependency] private readonly ActionsSystem _action = default!;
     [Dependency] private readonly StoreSystem _store = default!;
@@ -34,10 +44,17 @@ public sealed partial class RevenantSystem : EntitySystem
     [Dependency] private readonly PhysicsSystem _physics = default!;
     [Dependency] private readonly SharedStunSystem _stun = default!;
     [Dependency] private readonly StatusEffectsSystem _statusEffects = default!;
-
+    [Dependency] private readonly GhostSystem _ghost = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly MobStateSystem _mobState = default!;
+    [Dependency] private readonly SharedInteractionSystem _interact = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [DataField("_dashComp")]
+    private readonly DashAbilityComponent _dashComp = default!;
+    [DataField("coordinates")]
+    public Vector2? Coordinates;
     [ValidatePrototypeId<EntityPrototype>]
     private const string RevenantShopId = "ActionElectroMouseShop";
-    private const string AddEnergyId = "ActionElectroMouseAddEnergy";
 
     public override void Initialize()
     {
@@ -45,9 +62,10 @@ public sealed partial class RevenantSystem : EntitySystem
 
         SubscribeLocalEvent<ElectroMouseComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<ElectroMouseComponent, ElectroMouseShopActionEvent>(OnShop);
-        SubscribeLocalEvent<ElectroMouseComponent, ElectroMouseAddEnergyEvent>(AddEnergy);
         SubscribeLocalEvent<ElectroMouseComponent, InteractNoHandEvent>(OnInteract);
         SubscribeLocalEvent<ElectroMouseComponent, HarvestEvent>(OnHarvest);
+        SubscribeLocalEvent<ElectroMouseComponent, ElectroMouseOverloadLightsActionEvent>(OnOverloadLightsAction);
+        SubscribeLocalEvent<ElectroMouseComponent, ElectroMouseDashEvent>(DashAbility);
     }
 
 
@@ -58,17 +76,51 @@ public sealed partial class RevenantSystem : EntitySystem
         _store.ToggleUi(uid, uid, store);
     }
 
-    private void AddEnergy(EntityUid uid, ElectroMouseComponent component, ElectroMouseAddEnergyEvent args)
-    {
-        UpdateEnergy(uid, component);
-    }
 
     private void OnMapInit(EntityUid uid, ElectroMouseComponent component, MapInitEvent args)
     {
         _action.AddAction(uid, ref component.Action, RevenantShopId);
     }
+    private void DashAbility(EntityUid uid, ElectroMouseComponent comp, ElectroMouseDashEvent args)
+    {
+        if (!HasComp<ElectroMouseComponent>(uid))
+        {
+            return;
+        }
+        var entityManager = IoCManager.Resolve<IEntityManager>();
 
-    public bool ChangeEssenceAmount(EntityUid uid, FixedPoint2 amount, ElectroMouseComponent? component = null, bool allowDeath = true, bool regenCap = false)
+        var xformSystem = entityManager.System<TransformSystem>();
+
+        var energy = 2;
+        var user = args.Performer;
+
+        var mapPosition = xformSystem.GetWorldPosition(uid);
+        var reactionBounds = new Box2(mapPosition - new Vector2(energy, energy), mapPosition + new Vector2(energy, energy));
+
+        var newPosition = Coordinates;
+
+        newPosition = GetPositionFromRotation(reactionBounds, energy, uid);
+
+        if (newPosition != null)
+            xformSystem.SetWorldPosition(
+                uid,
+                (Vector2) newPosition
+            );
+        _audio.PlayPredicted(_dashComp.BlinkSound, user, user);
+    }
+    private static Vector2 GetPositionFromRotation(Box2 reactionBounds, float energy, EntityUid uid)
+    {
+        var entityManager = IoCManager.Resolve<IEntityManager>();
+
+        var xformSystem = entityManager.System<TransformSystem>();
+
+        var resultVector = Angle.FromDegrees(45).RotateVec(
+            xformSystem.GetWorldRotation(uid).RotateVec(new Vector2(energy, energy))
+        );
+
+        return reactionBounds.Center - resultVector;
+    }
+    public bool ChangeEnergyAmount(EntityUid uid, FixedPoint2 amount, ElectroMouseComponent? component = null, bool allowDeath = true, bool regenCap = false)
     {
         if (!Resolve(uid, ref component))
             return false;
@@ -90,33 +142,37 @@ public sealed partial class RevenantSystem : EntitySystem
         }
         return true;
     }
-    private void UpdateEnergy(EntityUid uid, ElectroMouseComponent component)
+    private void AddEnergy(EntityUid uid, ElectroMouseComponent component, int energ)
     {
         var store = EnsureComp<StoreComponent>(uid);
         // Get the ElectroMouseComponent instance from the entity
         if (EntityManager.TryGetComponent(uid, out ElectroMouseComponent? electroMouseComponent))
         {
-            ChangeEssenceAmount(uid, electroMouseComponent.Energy, component);
-            _store.TryAddCurrency(new Dictionary<string, FixedPoint2> { { component.StolenEnergyCurrencyPrototype, component.Energy } }, uid, store);
+            ChangeEnergyAmount(uid, electroMouseComponent.Energy, component);
+            _store.TryAddCurrency(new Dictionary<string, FixedPoint2> { { component.StolenEnergyCurrencyPrototype, energ } }, uid, store);
         }
     }
+
     private void OnInteract(EntityUid uid, ElectroMouseComponent component, InteractNoHandEvent args)
     {
-        if (args.Target == args.User || args.Target == null)
+        if (args.Target == null)
             return;
         var target = args.Target.Value;
-
+        if (HasComp<PoweredLightComponent>(target))
+        {
+            args.Handled = _ghost.DoGhostBooEvent(target);
+            return;
+        }
         if (!HasComp<ApcPowerReceiverComponent>(target))
             return;
-
+        if (HasComp<DoorComponent>(target))
+            return;
         args.Handled = true;
         BeginHarvestDoAfter(uid, target, component);
     }
 
-
     private void BeginHarvestDoAfter(EntityUid uid, EntityUid target, ElectroMouseComponent revenant)
     {
-
         var doAfter = new DoAfterArgs(EntityManager, uid, revenant.HarvestDebuffs.X, new HarvestEvent(), uid, target: target)
         {
             DistanceThreshold = 2,
@@ -138,30 +194,13 @@ public sealed partial class RevenantSystem : EntitySystem
 
     private void OnHarvest(EntityUid uid, ElectroMouseComponent component, HarvestEvent args)
     {
-        if (args.Cancelled)
-        {
-            _appearance.SetData(uid, RevenantVisuals.Harvesting, false);
+        if (args.Handled || args.Target == null || !HasComp<ApcPowerReceiverComponent>(args.Target))
             return;
-        }
-
-        if (args.Handled || args.Args.Target == null)
-            return;
-
+        var target = args.Target.Value;
         _appearance.SetData(uid, RevenantVisuals.Harvesting, false);
-
-        if (!TryComp<EssenceComponent>(args.Args.Target, out var essence))
-            return;
-
-        _popup.PopupEntity(Loc.GetString("revenant-soul-finish-harvest", ("target", args.Args.Target)),
-            args.Args.Target.Value, PopupType.LargeCaution);
-
-        _store.TryAddCurrency(new Dictionary<string, FixedPoint2>{ {component.StolenEnergyCurrencyPrototype, 5} }, uid);
-        essence.Harvested = true;
-
-
-        if (!HasComp<ApcPowerReceiverComponent>(args.Args.Target))
-            return;
-
+        _popup.PopupEntity(Loc.GetString("revenant-soul-finish-harvest", ("target", target)),
+            target, PopupType.Large);
+        AddEnergy(uid, component, 5);
         args.Handled = true;
     }
     private bool TryUseAbility(EntityUid uid, ElectroMouseComponent component, FixedPoint2 abilityCost, Vector2 debuffs)
@@ -182,13 +221,46 @@ public sealed partial class RevenantSystem : EntitySystem
             }
         }
 
-        ChangeEssenceAmount(uid, abilityCost, component, false);
+        ChangeEnergyAmount(uid, abilityCost, component, false);
 
         _statusEffects.TryAddStatusEffect<CorporealComponent>(uid, "Corporeal", TimeSpan.FromSeconds(debuffs.Y), false);
         _stun.TryStun(uid, TimeSpan.FromSeconds(debuffs.X), false);
 
         return true;
     }
+    private void OnOverloadLightsAction(EntityUid uid, ElectroMouseComponent component, ElectroMouseOverloadLightsActionEvent args)
+    {
+        if (args.Handled)
+            return;
 
+        if (!TryUseAbility(uid, component, component.OverloadCost, component.OverloadDebuffs))
+            return;
+
+        args.Handled = true;
+
+        var xform = Transform(uid);
+        var poweredLights = GetEntityQuery<PoweredLightComponent>();
+        var mobState = GetEntityQuery<MobStateComponent>();
+        var lookup = _lookup.GetEntitiesInRange(uid, component.OverloadRadius);
+        //TODO: feels like this might be a sin and a half
+        foreach (var ent in lookup)
+        {
+            if (!HasComp<MobStateComponent>(ent)) continue; // Imperial Space overload-lights-fix
+            if (!_mobState.IsAlive(ent)) continue; // Imperial Space overload-lights-fix
+
+            var nearbyLights = _lookup.GetEntitiesInRange(ent, component.OverloadZapRadius) // Imperial Space overload-lights-fix
+                .Where(e => !HasComp<RevenantOverloadedLightsComponent>(e) &&
+                            _interact.InRangeUnobstructed(e, uid, -1)).ToArray();
+
+            if (!nearbyLights.Any())
+                continue;
+
+            //get the closest light
+            var allLight = nearbyLights.OrderBy(e =>
+                Transform(e).Coordinates.TryDistance(EntityManager, xform.Coordinates, out var dist) ? component.OverloadZapRadius : dist);
+            var comp = EnsureComp<RevenantOverloadedLightsComponent>(allLight.First());
+            comp.Target = ent; //who they gon fire at?
+        }
+    }
 }
 

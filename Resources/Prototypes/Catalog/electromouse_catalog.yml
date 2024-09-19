@@ -1,9 +1,19 @@
 - type: listing
-  id: DebugElectrom
-  name: debug name 4
-  description: debug desc 4
-  productAction: ActionElectroMouseAddEnergy
+  id: ElectromOverload
+  name: Overload Lights
+  description: Overloads all nearby lights, causing lights to pulse and sending out dangerous lightning. Using it leaves you vulnerable to attacks for a long period of time.
+  productAction: ActionElectroMouseOverloadLights
   categories:
     - ElectromouseAbilities
   cost:
-    StolenEnergy: 1
+    StolenEnergy: 50
+
+- type: listing
+  id: ElectromDash
+  name: Dash
+  description: Teleport to anywhere you can see.
+  productAction: ActionElectroDash
+  categories:
+  - ElectromouseAbilities
+  cost:
+    StolenEnergy: 5

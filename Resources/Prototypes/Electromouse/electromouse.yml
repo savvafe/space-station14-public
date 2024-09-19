@@ -130,3 +130,4 @@
     - ElectromouseAbilities
     currencyWhitelist:
     - StolenEnergy
+  - type: Insulated
