@@ -27,6 +27,9 @@
   - Maintenance
   - Service
   - External
+  extendedAccess:
+  - Detective
+  - Armory
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant ]
@@ -43,6 +46,7 @@
     id: SeniorOfficerPDA
     gloves: ClothingHandsGlovesCombat # Imperial @keeyn
     ears: ClothingHeadsetSecurity
+    neck: SecurityWhistle
     belt: ClothingBeltMilitaryWebbingSeniorOfficerFilled # Imperial @keeyn
     pocket1: WeaponPistolMk58Nonlethal
   innerClothingSkirt: ClothingUniformJumpskirtSeniorOfficer

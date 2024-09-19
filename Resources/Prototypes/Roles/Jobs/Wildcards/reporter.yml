@@ -18,6 +18,8 @@
     shoes: ClothingShoesColorWhite
     id: ReporterPDA
     ears: ClothingHeadsetService
+    belt: BoxFolderClipboard
+    pocket1: MicrophoneInstrument
   innerClothingSkirt: ClothingUniformJumpskirtReporter
   satchel: ClothingBackpackSatchelFilled
   duffelbag: ClothingBackpackDuffelFilled
