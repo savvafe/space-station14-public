@@ -6,8 +6,8 @@
     - type: StorageFill
       contents:
         - id: BoxSurvival
-        - id: BriefcaseIAAFilled
         - id: Flash
+        - id: RubberStampIAA
 
 - type: entity
   noSpawn: true
@@ -17,8 +17,8 @@
     - type: StorageFill
       contents:
         - id: BoxSurvival
-        - id: BriefcaseIAAFilled
         - id: Flash
+        - id: RubberStampIAA
 
 - type: entity
   noSpawn: true
@@ -28,8 +28,8 @@
     - type: StorageFill
       contents:
         - id: BoxSurvival
-        - id: BriefcaseIAAFilled
         - id: Flash
+        - id: RubberStampIAA
 
 - type: entity
   id: BriefcaseIAAFilled
@@ -38,7 +38,5 @@
   components:
     - type: StorageFill
       contents:
-        - id: Paper
-          amount: 3
-        - id: CyberPen
-        - id: RubberStampIAA
+        - id: BoxFolderPresentable
+        - id: LuxuryPen
