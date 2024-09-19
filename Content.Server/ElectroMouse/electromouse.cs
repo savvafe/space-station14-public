@@ -26,6 +26,7 @@ using System.Linq;
 using Content.Shared.Doors.Components;
 using Robust.Shared.Audio.Systems;
 using Content.Shared.Damage;
+using Content.Shared.ElectroMouseHarvested;
 
 namespace Content.Server.ElectroMouse.EntitySystems;
 
@@ -151,6 +152,11 @@ public sealed partial class ElectroMouseSystem : EntitySystem
             args.Handled = _ghost.DoGhostBooEvent(target);
             return;
         }
+        if (HasComp<ElectroMouseHarvestedComponent>(target))
+        {
+            _popup.PopupEntity(Loc.GetString("electromouse-harvested"), uid, uid);
+            return;
+        }
         if (!HasComp<ApcPowerReceiverComponent>(target))
             return;
         if (HasComp<DoorComponent>(target))
@@ -188,6 +194,7 @@ public sealed partial class ElectroMouseSystem : EntitySystem
         _appearance.SetData(uid, RevenantVisuals.Harvesting, false);
         _popup.PopupEntity(Loc.GetString("revenant-soul-finish-harvest", ("target", target)),
             target, PopupType.Large);
+        AddComp<ElectroMouseHarvestedComponent>(target);
         AddEnergy(uid, component, 5);
         args.Handled = true;
     }

@@ -19,7 +19,20 @@
   categories:
   - ElectromouseAbilities
   cost:
-    StolenEnergy: 5
+    StolenEnergy: 15
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
+  id: ElectromEmp
+  name: Активировать ЭМИ #Imperial translate
+  description: Вызывает небольшой ЭМИ-импульс вокруг вас. #Imperial translate
+  productAction: ActionElectroMouseEmp
+  categories:
+  - ElectromouseAbilities
+  cost:
+    StolenEnergy: 25
   conditions:
   - !type:ListingLimitedStockCondition
     stock: 1
