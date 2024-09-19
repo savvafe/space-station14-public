@@ -5,7 +5,7 @@
     forced: true
     transferName: true
     transferHumanoidAppearance: true
-    inventory: None
+    inventory: Drop
     revertOnDeath: true
     revertOnCrit: true
     duration: 30
