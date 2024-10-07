@@ -262,7 +262,7 @@
     forced: true
     transferName: true
     transferHumanoidAppearance: true
-    inventory: None
+    inventory: Drop
     revertOnDeath: true
     revertOnCrit: true
     duration: 30
@@ -272,7 +272,7 @@
   configuration:
     entity: MobGnome
     forced: true
-    inventory: None
+    inventory: Drop
     transferName: false
     transferDamage: false
     revertOnCrit: false
