@@ -503,29 +503,11 @@
   suffix: DeadSector
   description: It has a medium capacity, ultra-high armor protection, and a built-in “Kora” body armor. Metallic color.
   components:
-  - type: PowerCellSlot
-    cellSlotId: cell_slot
-    fitsInCharger: false
   - type: ContainerContainer
     containers:
       cell_slot: !type:ContainerSlot
       storagebase: !type:Container
         ents: []
-  - type: ItemSlots
-    slots:
-      cell_slot:
-        name: power-cell-slot-component-slot-name-default
-        startingItem: PowerCellSmall
-        disableEject: false
-  - type: PowerCellDraw
-    canDraw: true
-    drawRate: 50
-  - type: SpeedModifierFromCharging
-    cellSlotId: cell_slot
-    sprintSpeedModifierOnCharge: 1.3
-    walkSpeedModifierOnCharge: 1.3
-    sprintSpeedModifierOnDischarge: 0.3
-    walkSpeedModifierOnDischarge: 0.3
   - type: Item
     size: Huge
     shape:
@@ -553,7 +535,7 @@
         Caustic: 0.20
   - type: ClothingSpeedModifier
     walkModifier: 1
-    sprintModifier: 0.60
+    sprintModifier: 0.75
 
 - type: entity
   parent: ClothingOuterBaseMedium
@@ -595,29 +577,11 @@
   suffix: DeadSector
   description: It has a medium capacity, high armor protection, and a built-in bulletproof vest of the "BZ" series. The suit has a built-in auto-servo drive system that allows the wearer to run significantly faster. Metallic color.
   components:
-  - type: PowerCellSlot
-    cellSlotId: cell_slot
-    fitsInCharger: false
   - type: ContainerContainer
     containers:
       cell_slot: !type:ContainerSlot
       storagebase: !type:Container
         ents: []
-  - type: ItemSlots
-    slots:
-      cell_slot:
-        name: power-cell-slot-component-slot-name-default
-        startingItem: PowerCellSmall
-        disableEject: false
-  - type: PowerCellDraw
-    canDraw: true
-    drawRate: 50
-  - type: SpeedModifierFromCharging
-    cellSlotId: cell_slot
-    sprintSpeedModifierOnCharge: 1.3
-    walkSpeedModifierOnCharge: 1.3
-    sprintSpeedModifierOnDischarge: 0.3
-    walkSpeedModifierOnDischarge: 0.3
   - type: Item
     size: Huge
     shape:
@@ -644,8 +608,8 @@
         Shock: 0.40
         Caustic: 0.75
   - type: ClothingSpeedModifier
-    walkModifier: 1
-    sprintModifier: 1.40
+    walkModifier: 1.1
+    sprintModifier: 1.1
 
 - type: entity
   parent: ClothingOuterBaseMedium
@@ -654,29 +618,11 @@
   suffix: DeadSector
   description: Has metal rust throughout the body.
   components:
-  - type: PowerCellSlot
-    cellSlotId: cell_slot
-    fitsInCharger: false
   - type: ContainerContainer
     containers:
       cell_slot: !type:ContainerSlot
       storagebase: !type:Container
         ents: []
-  - type: ItemSlots
-    slots:
-      cell_slot:
-        name: power-cell-slot-component-slot-name-default
-        startingItem: PowerCellSmall
-        disableEject: false
-  - type: PowerCellDraw
-    canDraw: true
-    drawRate: 50
-  - type: SpeedModifierFromCharging
-    cellSlotId: cell_slot
-    sprintSpeedModifierOnCharge: 1.3
-    walkSpeedModifierOnCharge: 1.3
-    sprintSpeedModifierOnDischarge: 0.3
-    walkSpeedModifierOnDischarge: 0.3
   - type: Item
     size: Huge
     shape:
@@ -696,29 +642,11 @@
   suffix: DeadSector
   description: It has high capacity, ultra-high armor protection, built-in “Tank” body armor, and signal orange stripes. Metallic color.
   components:
-  - type: PowerCellSlot
-    cellSlotId: cell_slot
-    fitsInCharger: false
   - type: ContainerContainer
     containers:
       cell_slot: !type:ContainerSlot
       storagebase: !type:Container
         ents: []
-  - type: ItemSlots
-    slots:
-      cell_slot:
-        name: power-cell-slot-component-slot-name-default
-        startingItem: PowerCellSmall
-        disableEject: false
-  - type: PowerCellDraw
-    canDraw: true
-    drawRate: 50
-  - type: SpeedModifierFromCharging
-    cellSlotId: cell_slot
-    sprintSpeedModifierOnCharge: 1.3
-    walkSpeedModifierOnCharge: 1.3
-    sprintSpeedModifierOnDischarge: 0.3
-    walkSpeedModifierOnDischarge: 0.3
   - type: Item
     size: Huge
     shape:
@@ -746,7 +674,7 @@
         Caustic: 0.40
   - type: ClothingSpeedModifier
     walkModifier: 1
-    sprintModifier: 0.60
+    sprintModifier: 0.75
 
 - type: entity
   parent: ClothingOuterBaseMedium
