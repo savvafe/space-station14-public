@@ -29,30 +29,29 @@
 - type: startingGear
   id: ArcaneMercGear
   equipment:
-    jumpsuit: ClothingUniformJumpsuitMercenary
-    back: ClothingBackpackMerc
-    shoes: ClothingShoesBootsMercFilled
-    head: ClothingHeadBandMerc
-    eyes: ClothingEyesGlassesMercenary
-    gloves: ClothingHandsGlovesMercFingerless
-    outerClothing: ClothingOuterVestWebMerc
-    ears: ClothingHeadsetGanza
-    belt: ClothingBeltMercWebbing
-    pocket1: ClothingMaskGasMerc
+    jumpsuit: VlArcaneMercJumpsuit
+    back: VlMercBackpack
+    shoes: ClothingShoesBootsCombat
+    gloves: VlArcaneMercGloves
+    ears: VlMercHeadset
+    id: VlArcaneMercPDA
+    pocket1: CombatMedipen
+    pocket2: WeaponPistolViper
 
 - type: startingGear
   id: ArcaneHeadMercGear
   equipment:
-    jumpsuit: ClothingUniformJumpsuitMercenary
-    back: ClothingBackpackMerc
-    shoes: ClothingShoesBootsMercFilled
-    head: ClothingHeadHatBeretMerc
-    eyes: ClothingEyesGlassesMercenary
-    gloves: ClothingHandsMercGlovesCombat
-    outerClothing: ClothingOuterVestWebMerc
-    ears: ClothingHeadsetGanza
-    belt: ClothingBeltMercWebbing
-    pocket1: ClothingMaskGasMerc
+    jumpsuit: VlArcaneMercJumpsuit
+    back: VlMercBackpack
+    shoes: VlArcaneMercMagBoots
+    head: VlMercBeret
+    eyes: ClothingEyesGlassesSunglasses
+    gloves: VlArcaneMercGloves
+    outerClothing: VlArcaneMercCMDSuitOne
+    ears: VlMercHeadset
+    id: VlArcaneMercPDA
+    pocket1: CombatMedipen
+    pocket2: WeaponRevolverDeckard
 
 - type: startingGear
   id: ArcaneBomjGear

@@ -1,0 +1,151 @@
+- type: accessLevel
+  id: Merc
+  name: id-card-access-level-merc
+
+- type: radioChannel
+  id: VlArcaneMercRadio
+  name: Наёмники
+  keycode: 'f'
+  frequency: 113
+  color: "#9bbfa1"
+  longRange: true
+
+- type: entity
+  parent: EncryptionKey
+  id: VlArcaneMercRadioKey
+  name: The encryption key of the mercenaries
+  suffix: Vl, Arcane
+  description: The key to the mercenaries' private radio channel.
+  components:
+  - type: EncryptionKey
+    channels:
+    - VlArcaneMercRadio
+    defaultChannel: VlArcaneMercRadio
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/Key.rsi
+    layers:
+    - state: crypt_merc
+    - state: merc_label
+
+- type: statusIcon
+  parent: JobIcon
+  id: VlArcaneMercJobIcon
+  icon:
+    sprite: /Textures/Imperial/ArcaneStation/Merc/JobIcon.rsi
+    state: Merc
+
+- type: entity
+  parent: IDCardStandard
+  id: VlArcaneMercCard
+  name: The Mercenary's ID Card
+  description: It looks unusual. Taken from military samples.
+  suffix: Vl, Arcane
+  components:
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/Card.rsi
+    layers:
+    - state: Merc
+    - state: idcentcom
+  - type: Clothing
+    slots:
+    - idcard
+    sprite: Imperial/ArcaneStation/Merc/Card.rsi
+  - type: IdCard
+    jobTitle: Наёмник
+    jobIcon: VlArcaneMercJobIcon
+  - type: Access
+    tags:
+    - Merc
+
+- type: entity
+  parent: BasePDA
+  id: VlArcaneMercPDA
+  name: The Mercenary's PDA
+  suffix: Vl, Arcane
+  description: It looks more like a military computer. He's covered in scratches.
+  components:
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/PDA.rsi
+    layers:
+    - map: [ "enum.PdaVisualLayers.Base" ]
+    - state: "light_overlay"
+      map: [ "enum.PdaVisualLayers.Flashlight" ]
+      shader: "unshaded"
+      visible: false
+    - state: "id_overlay"
+      map: [ "enum.PdaVisualLayers.IdLight" ]
+      shader: "unshaded"
+      visible: false
+  - type: Item
+    size: Small
+  - type: Pda
+    id: VlArcaneMercCard
+    state: pda-merc
+  - type: Icon
+    sprite: Imperial/ArcaneStation/Merc/PDA.rsi
+    state: pda-merc
+  - type: PdaBorderColor
+    borderColor: "#597d5f"
+    accentHColor: "#3a5940"
+  - type: HealthAnalyzer
+    scanDelay: 5
+    scanningEndSound:
+      path: "/Audio/Items/Medical/healthscanner.ogg"
+
+- type: entity
+  parent: Airlock
+  id: VlArcaneMercAirlockLocked
+  name: Gateway
+  suffix: Vl, Arcane, Закрыт
+  components:
+  - type: AccessReader
+    access: [["Merc"]]
+  - type: Wires
+    layoutId: AirlockService
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/StandartDoor.rsi
+    snapCardinals: true
+    layers:
+    - state: closed
+      map: ["enum.DoorVisualLayers.Base"]
+    - state: closed_unlit
+      shader: unshaded
+      map: ["enum.DoorVisualLayers.BaseUnlit"]
+    - state: welded
+      map: ["enum.WeldableLayers.BaseWelded"]
+    - state: bolted_unlit
+      shader: unshaded
+      map: ["enum.DoorVisualLayers.BaseBolted"]
+    - state: emergency_unlit
+      map: ["enum.DoorVisualLayers.BaseEmergencyAccess"]
+      shader: unshaded
+    - state: panel_open
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
+
+- type: entity
+  parent: Airlock
+  id: VlArcaneMercAirlockOpened
+  name: Gateway
+  suffix: Vl, Arcane
+  components:
+  - type: Wires
+    layoutId: AirlockService
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/StandartDoor.rsi
+    snapCardinals: true
+    layers:
+    - state: closed
+      map: ["enum.DoorVisualLayers.Base"]
+    - state: closed_unlit
+      shader: unshaded
+      map: ["enum.DoorVisualLayers.BaseUnlit"]
+    - state: welded
+      map: ["enum.WeldableLayers.BaseWelded"]
+    - state: bolted_unlit
+      shader: unshaded
+      map: ["enum.DoorVisualLayers.BaseBolted"]
+    - state: emergency_unlit
+      map: ["enum.DoorVisualLayers.BaseEmergencyAccess"]
+      shader: unshaded
+    - state: panel_open
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
