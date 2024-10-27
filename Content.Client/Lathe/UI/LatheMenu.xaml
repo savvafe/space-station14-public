@@ -121,12 +121,31 @@
                     SelectMode="None">
                 </ItemList>
             </BoxContainer>
+            <!-- Imperial PrinterDoc -->
+            <BoxContainer
+                Name="CardIdContainer"
+                Orientation="Horizontal"
+                HorizontalExpand="True"
+                Visible="False">
+                <BoxContainer
+                    VerticalExpand="True" >
+                    <Label Text="Использовать данные ID Карты: "/>
+                    <CheckBox Name="UseCardIdCheckBox"/>
+                </BoxContainer>
+            </BoxContainer>
+            <!-- Imperial PrinterDoc -->
+            <BoxContainer
+                Name="CardIdContainerExpand"
+                Orientation="Vertical"
+                VerticalExpand="True"
+                HorizontalExpand="True"
+                MinHeight="10"
+                Visible="False"/>
             <BoxContainer
             VerticalExpand="True"
             HorizontalExpand="True"
             Orientation="Vertical"
-            MinHeight="225"
-            >
+            MinHeight="225">
             <Label Text="{Loc 'lathe-menu-materials-title'}" Margin="5 5 5 5" HorizontalAlignment="Center"/>
             <BoxContainer
                 Orientation="Vertical"

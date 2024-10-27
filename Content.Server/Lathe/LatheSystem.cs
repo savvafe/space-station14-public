@@ -5,9 +5,11 @@ using Content.Server.Atmos;
 using Content.Server.Atmos.EntitySystems;
 using Content.Server.Lathe.Components;
 using Content.Server.Materials;
+using Content.Server.PrinterDoc; // Imperial PrinterDoc
 using Content.Server.Power.Components;
 using Content.Server.Power.EntitySystems;
 using Content.Server.Stack;
+using Content.Shared.PrinterDoc; // Imperial PrinterDoc
 using Content.Shared.UserInterface;
 using Content.Shared.Database;
 using Content.Shared.Emag.Components;
@@ -33,6 +35,8 @@ namespace Content.Server.Lathe
         [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
         [Dependency] private readonly SharedAudioSystem _audio = default!;
         [Dependency] private readonly UserInterfaceSystem _uiSys = default!;
+        // Imperial PrinterDoc
+        [Dependency] private readonly PrinterDocSystem _printerDoc = default!;
         [Dependency] private readonly MaterialStorageSystem _materialStorage = default!;
         [Dependency] private readonly StackSystem _stack = default!;
         [Dependency] private readonly TransformSystem _transform = default!;
@@ -53,6 +57,9 @@ namespace Content.Server.Lathe
 
             SubscribeLocalEvent<LatheComponent, LatheQueueRecipeMessage>(OnLatheQueueRecipeMessage);
             SubscribeLocalEvent<LatheComponent, LatheSyncRequestMessage>(OnLatheSyncRequestMessage);
+
+            // Imperial PrinterDoc
+            SubscribeLocalEvent<LatheComponent, PrinterDocCheckIdCardMessage>(OnPrinterDocCheckIdCard);
 
             SubscribeLocalEvent<LatheComponent, BeforeActivatableUIOpenEvent>((u, c, _) => UpdateUserInterfaceState(u, c));
             SubscribeLocalEvent<LatheComponent, MaterialAmountChangedEvent>(OnMaterialAmountChanged);
@@ -100,6 +107,16 @@ namespace Content.Server.Lathe
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Imperial PrinterDoc
+        /// </summary>
+        private void OnPrinterDocCheckIdCard(EntityUid uid, LatheComponent component, PrinterDocCheckIdCardMessage args)
+        {
+            component.UseCardId = args.UseCardId;
+            Dirty(uid, component);
+            UpdateUserInterfaceState(uid, component);
         }
 
         private void OnGetWhitelist(EntityUid uid, LatheComponent component, ref GetMaterialWhitelistEvent args)
@@ -203,6 +220,8 @@ namespace Content.Server.Lathe
             if (comp.CurrentRecipe != null)
             {
                 var result = Spawn(comp.CurrentRecipe.Result, Transform(uid).Coordinates);
+                // Imperial PrinterDoc
+                _printerDoc.TrySetContentPrintedDocument(result, comp.LastUser ?? default, comp.UseCardId);
                 _stack.TryMergeToContacts(result);
             }
 
@@ -223,9 +242,15 @@ namespace Content.Server.Lathe
                 return;
 
             var ui = _uiSys.GetUi(uid, LatheUiKey.Key);
-            var producing = component.CurrentRecipe ?? component.Queue.FirstOrDefault();
+            // Imperial PrinterDoc
+            var currentlyProducing = component.CurrentRecipe ?? component.Queue.FirstOrDefault();
+            var state = new LatheUpdateState(
+                GetAvailableRecipes(uid, component),
+                component.Queue,
+                currentlyProducing,
+                component.UseCardId
+            );
 
-            var state = new LatheUpdateState(GetAvailableRecipes(uid, component), component.Queue, producing);
             _uiSys.SetUiState(ui, state);
         }
 
@@ -305,6 +330,7 @@ namespace Content.Server.Lathe
             }
         }
 
+
         private void OnDatabaseModified(EntityUid uid, LatheComponent component, ref TechnologyDatabaseModifiedEvent args)
         {
             UpdateUserInterfaceState(uid, component);
@@ -337,6 +363,8 @@ namespace Content.Server.Lathe
                 {
                     _adminLogger.Add(LogType.Action, LogImpact.Low,
                         $"{ToPrettyString(args.Session.AttachedEntity.Value):player} queued {count} {recipe.Name} at {ToPrettyString(uid):lathe}");
+                    // Imperial PrinterDoc
+                    component.LastUser = args.Session.AttachedEntity.Value;
                 }
             }
             TryStartProducing(uid, component);
