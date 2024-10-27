@@ -1,0 +1,9 @@
+ent-TireWithATire = шина с покрышкой
+    .desc = Из этого выйдет отличное обрамление сада у подъезда.
+    .suffix = { "DeadSector" }
+ent-HomemadeWindTurbine = самодельный ветрогенератор
+    .desc = Прямо как на диком западе... Наверное.
+    .suffix = { "DeadSector" }
+ent-RedGasolineGenerator = бензиновый генератор
+    .desc = Бензиновый генератор. Интересно, на чём он работает?
+    .suffix = { "DeadSector" }

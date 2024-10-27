@@ -28,7 +28,7 @@
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/sniper.ogg
       params:
-        volume: -22
+        volume: -11
   - type: BallisticAmmoProvider
     capacity: 15
     proto: CartridgeSVUMkII

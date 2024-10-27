@@ -1,0 +1,39 @@
+- type: entity
+  parent: PosterBase
+  id: DeadSectorPoster1
+  name: Test
+  description: Test
+  components:
+  - type: Sprite
+    sprite: Imperial/DeadSector/posters.rsi
+    state: poster-1
+
+- type: entity
+  parent: PosterBase
+  id: DeadSectorPoster2
+  name: Test
+  description: Test
+  components:
+  - type: Sprite
+    sprite: Imperial/DeadSector/posters.rsi
+    state: poster-2
+
+- type: entity
+  parent: PosterBase
+  id: DeadSectorPoster3
+  name: Test
+  description: Test
+  components:
+  - type: Sprite
+    sprite: Imperial/DeadSector/posters.rsi
+    state: poster-3
+
+- type: entity
+  parent: PosterBase
+  id: DeadSectorPoster4
+  name: Test
+  description: Test
+  components:
+  - type: Sprite
+    sprite: Imperial/DeadSector/posters.rsi
+    state: poster-4
