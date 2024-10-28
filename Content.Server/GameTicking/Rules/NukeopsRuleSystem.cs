@@ -405,7 +405,7 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
             {
                 // Nukies must wait some time after declaration of war to get on the station
                 var warTime = Timing.CurTime.Subtract(nukeops.WarDeclaredTime.Value);
-                if (warTime < nukeops.WarNukieArriveDelay)
+                if (warTime < nukeops.WarNukieArriveDelay + nukeops.WarEvacBonusBlock) /// Изменено Imperial Space. nukeops.WarEvacBonusBlock - дополнительное значение, блокирующее эвак на бонусные 10 минут
                 {
                     ev.Cancelled = true;
                     ev.Reason = Loc.GetString("war-ops-shuttle-call-unavailable");
