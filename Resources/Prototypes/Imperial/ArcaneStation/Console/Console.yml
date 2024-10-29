@@ -1,0 +1,31 @@
+- type: entity
+  parent: ComputerComms
+  id: ArcaneComp
+  name: Консоль Забытого Сектора
+  suffix: Vl, Arcane, Всячина
+  description: Странная консоль... Если ты не знаешь, для чего она - забудь о ней.
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: comm_syndie
+    - map: ["computerLayerKeys"]
+      state: syndie_key
+  - type: AccessReader
+    access: [[ "NuclearOperative" ]]
+  - type: CommunicationsConsole
+    title: Забытый Сектор
+    color: "#54cbe3"
+    canShuttle: false
+    global: true
+    sound: /Audio/Imperial/Arcane/Annonce.ogg
+  - type: Computer
+    board: SyndicateCommsComputerCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 1.6
+    color: "#54cbe3"

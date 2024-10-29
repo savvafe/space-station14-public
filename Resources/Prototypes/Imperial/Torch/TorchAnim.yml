@@ -1,0 +1,26 @@
+- type: entity
+  id: ImpTorch
+  suffix: Gaq
+  parent: BaseStructure
+  name: torch
+  description: Just a torch. Lights the way.
+  components:
+  - type: Sprite
+    sprite: Imperial/Torch.rsi
+    layers:
+      - state: active
+      - state: anim
+        shader: unshaded
+  - type: Appearance
+  - type: AmbientSound
+    volume: -10
+    range: 2
+    sound:
+      path: /Audio/Ambience/Objects/fireplace.ogg
+  - type: PointLight
+    radius: 5
+    energy: 2
+    color: "#FF6F00"
+  - type: AlwaysHot
+  - type: Physics
+    canCollide: false
