@@ -191,3 +191,65 @@
           behaviors:
             - !type:SolutionExplosionBehavior
               solution: tank
+
+- type: entity
+  parent: WallmountTelescreenFrame
+  id: WallmountTelevisionBroken
+  name: broken television
+  description: Finally, some decent reception around here...
+  components:
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.75,-0.10,0.75,0.35"
+        density: 75
+        mask:
+          - FullTileMask
+        layer:
+          - WallLayer
+  - type: Sprite
+    drawdepth: WallMountedItems
+    sprite: Imperial/DeadSector/location_objects/WallmountTelevisionBroken.rsi
+    layers:
+      - map: ["computerLayerBody"]
+        state: base
+      - map: ["computerLayerScreen"]
+        state: base
+
+- type: entity
+  id: ELTTelevision
+  parent: BaseStructureDynamic
+  name: ELT television
+  placement:
+    mode: SnapgridCenter
+  components:
+    - type: Transform
+      anchored: true
+      noRot: true
+    - type: Physics
+      bodyType: Static
+    - type: Damageable
+      damageContainer: Inorganic
+      damageModifierSet: Metallic
+    - type: Destructible
+      thresholds:
+      - trigger:
+          !type:DamageTrigger
+          damage: 100
+        behaviors:
+        - !type:SpawnEntitiesBehavior
+          spawn:
+            SheetSteel1:
+              min: 1
+              max: 3
+        - !type:DoActsBehavior
+          acts: ["Destruction"]
+    - type: Sprite
+      sprite: Imperial/DeadSector/location_objects/ELTTelevision.rsi
+      state: base
+    - type: PointLight
+      radius: 1.5
+      energy: 1.6
+      color: "#ffe4ce"

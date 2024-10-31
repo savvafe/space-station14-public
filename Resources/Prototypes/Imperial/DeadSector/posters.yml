@@ -37,3 +37,23 @@
   - type: Sprite
     sprite: Imperial/DeadSector/posters.rsi
     state: poster-4
+
+- type: entity
+  parent: PosterBase
+  id: DeadSectorPoster5
+  name: Test
+  description: Test
+  components:
+  - type: Sprite
+    sprite: Imperial/DeadSector/posters.rsi
+    state: poster-5
+
+- type: entity
+  parent: PosterBase
+  id: DeadSectorPoster6
+  name: Test
+  description: Test
+  components:
+  - type: Sprite
+    sprite: Imperial/DeadSector/posters.rsi
+    state: poster-6

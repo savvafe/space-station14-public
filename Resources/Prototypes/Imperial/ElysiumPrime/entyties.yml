@@ -153,5 +153,37 @@
   - type: PdaBorderColor
     borderColor: "#242424"
     accentHColor: "#447987"
+
+- type: entity
+  id: ElysiumFederationPDAWithWardenID
+  parent: BaseCustomPDA
+  name: Federation PDA
+  description:  #none
+  suffix: Elysium_Prime
+  components:
+  - type: Icon
+    state: pda-elysiumFederation
+  - type: Pda
+    id: ElysiumFederationIDCardWarden
+    state: pda-elysiumFederation
+  - type: PdaBorderColor
+    borderColor: "#242424"
+    accentHColor: "#447987"
+
+- type: entity
+  id: ElysiumFederationPDAWithPassengerID
+  parent: BaseCustomPDA
+  name: Federation PDA
+  description:  #none
+  suffix: Elysium_Prime
+  components:
+  - type: Icon
+    state: pda-elysiumFederation
+  - type: Pda
+    id: ElysiumFederationIDCardPassenger
+    state: pda-elysiumFederation
+  - type: PdaBorderColor
+    borderColor: "#242424"
+    accentHColor: "#447987"
 #PDA and ID card END.
 
