@@ -1,6 +1,6 @@
 - type: entity
   name: Mr. Slow
-  suffix: Ведьмы
+  suffix: Vl, Ведьмы
   parent: MobSloth
   id: WitchersMrSlow
   description: Maybe Mr. Snow? I'm sorry, I couldn't resist... In general, it's just a demonic snail.
