@@ -1,6 +1,6 @@
 - type: entity
   name: Mr. Red-haired
-  suffix: Ведьмы
+  suffix: Vl, Ведьмы
   parent: MobCat
   id: WitchersMrRed
   description: A huge, fluffy, cute and possibly evil.. cat.
