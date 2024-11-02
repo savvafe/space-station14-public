@@ -2,7 +2,7 @@
   parent: ClothingOuterStorageBase
   id: WitcherPurpleDress
   name: The Purple Witch's Dress
-  suffix: Ведьмы
+  suffix: Vl, Ведьмы
   description: A beautiful long purple witch dress.
   components:
   - type: Item

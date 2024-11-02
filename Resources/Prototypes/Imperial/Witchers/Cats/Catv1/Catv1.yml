@@ -1,6 +1,6 @@
 - type: entity
   name: Abel the Cat
-  suffix: Ведьмы
+  suffix: Vl, Ведьмы
   parent: SimpleMobBase
   id: WitcherCatvOne
   description: An angry, big-eyed cat.

@@ -1,6 +1,6 @@
 - type: entity
   name: The Red Braid
-  suffix: Ведьмы
+  suffix: Vl, Ведьмы
   parent: BaseKnife
   id: WitchersKosa
   description: A bloody scythe used by witches.

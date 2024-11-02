@@ -1555,10 +1555,10 @@ namespace Content.Shared.CCVar
             CVarDef.Create("viewport.minimum_width", 15, CVar.REPLICATED);
 
         public static readonly CVarDef<int> ViewportMaximumWidth =
-            CVarDef.Create("viewport.maximum_width", 21, CVar.REPLICATED);
+            CVarDef.Create("viewport.maximum_width", 27, CVar.REPLICATED); // По умолчанию 21. Изменено Imperial Space
 
         public static readonly CVarDef<int> ViewportWidth =
-            CVarDef.Create("viewport.width", 21, CVar.CLIENTONLY | CVar.ARCHIVE);
+            CVarDef.Create("viewport.width", 27, CVar.CLIENTONLY | CVar.ARCHIVE); // По умолчанию 21. Изменено Imperial Space
 
         /*
          * UI
