@@ -48,3 +48,51 @@
 
 - type: Tag
   id: CartridgeAssaultPKM
+
+- type: Tag
+  id: MagazineAR15
+
+- type: Tag
+  id: MagazineHK416
+
+- type: Tag
+  id: MagazineAKS74y
+
+- type: Tag
+  id: CartridgeFelixCarabineAR
+
+- type: Tag
+  id: CartridgeFelixCarabineAKS74y
+
+- type: Tag
+  id: CartridgeFelixCarabineHK416
+
+- type: Tag
+  id: MagazineVSSMkI
+
+- type: Tag
+  id: MagazineVSSMkII
+
+- type: Tag
+  id: MagazineSVUMkI
+
+- type: Tag
+  id: CartridgeFelixRifleVSS
+
+- type: Tag
+  id: CartridgeFelixRifleVSSMkI
+
+- type: Tag
+  id: CartridgeFelixRifleVSSMkII
+
+- type: Tag
+  id: CartridgeFelixRifleSVUMkI
+
+- type: Tag
+  id: CartridgeFelixSubmachine
+
+- type: Tag
+  id: MagazineMP5
+
+- type: Tag
+  id: MagazineMP9

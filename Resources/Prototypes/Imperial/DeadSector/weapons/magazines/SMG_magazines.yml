@@ -63,3 +63,105 @@
     steps: 6
     zeroVisible: false
   - type: Appearance
+
+- type: entity
+  id: BaseMagazineMP5
+  parent: BaseItem
+  name: pistol magazine (.35 MP5)
+  abstract: true
+  components:
+  - type: BallisticAmmoProvider
+    mayTransfer: true
+    whitelist:
+      tags:
+        - CartridgeFelixSubmachine
+    capacity: 32
+  - type: Item
+    size: Small
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+  - type: Tag
+    tags:
+      - MagazineMP5
+
+- type: entity
+  id: MagazineMP5
+  parent: BaseMagazineMP5
+  name: pistol magazine (.35 MP5)
+  suffix: Felix
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeSubmachine
+  - type: Sprite
+    sprite: Imperial/Entities/Objects/Guns/Ammunition/Felix/MP5.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+
+- type: entity
+  id: MagazineArmorPiercingMP5
+  parent: BaseMagazineMP5
+  name: pistol magazine (.35 MP5)
+  suffix: Felix
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeArmorPiercingSubmachine
+  - type: Sprite
+    sprite: Imperial/Entities/Objects/Guns/Ammunition/Felix/MP5.rsi
+    layers:
+    - state: mercury
+      map: ["enum.GunVisualLayers.Base"]
+
+- type: entity
+  id: BaseMagazineMP9
+  name: pistol magazine (.35 MP5)
+  parent: BaseMagazinePistolSubMachineGun
+  abstract: true
+  components:
+  - type: BallisticAmmoProvider
+    mayTransfer: true
+    whitelist:
+      tags:
+        - CartridgeFelixSubmachine
+    capacity: 30
+  - type: Appearance
+  - type: MagazineVisuals
+    magState: mag
+    steps: 5
+    zeroVisible: false
+  - type: Tag
+    tags:
+      - MagazineMP5
+
+- type: entity
+  id: MagazineMP9
+  parent: BaseMagazineMP9
+  name: pistol magazine (.35 MP9)
+  suffix: Felix
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeSubmachine
+  - type: Sprite
+    sprite: Imperial/Entities/Objects/Guns/Ammunition/Felix/MP9.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+- type: entity
+  id: MagazineArmorPiercingMP9
+  parent: BaseMagazineMP9
+  name: pistol magazine (.35 MP9)
+  suffix: Felix
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeArmorPiercingSubmachine
+  - type: Sprite
+    sprite: Imperial/Entities/Objects/Guns/Ammunition/Felix/MP9.rsi
+    layers:
+    - state: mercury
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]

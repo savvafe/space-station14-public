@@ -1,0 +1,41 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "made by @Felix",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+	    {
+	    	"name": "base"
+	    },
+        {
+	    	"name": "bolt-open"
+	    },
+        {
+	    	"name": "equipped-BACKPACK"
+	    },
+        {
+	    	"name": "icon"
+	    },
+        {
+	    	"name": "inhand-left"
+	    },
+        {
+	    	"name": "inhand-right"
+	    },
+        {
+	    	"name": "laser-off"
+	    },
+        {
+	    	"name": "laser-on"
+	    },
+        {
+	    	"name": "mag-0"
+	    },
+        {
+	    	"name": "scope"
+	    }
+    ]
+}

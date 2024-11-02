@@ -90,6 +90,53 @@
     - type: PresetIdCard
       job: #none
 
+- type: entity
+  id: ElysiumFederationIDCardWarden
+  parent: PassengerIDCard
+  name: Federation ID card
+  suffix: Elysium_Prime
+  components:
+    - type: Sprite
+      sprite: Imperial/ElysiumPrime/card.rsi
+      layers:
+        - state: federation
+    - type: Clothing
+      slots:
+        - idcard
+      sprite: Imperial/ElysiumPrime/card.rsi
+    - type: PresetIdCard
+      job: #none
+    - type: Access
+      tags:
+      - Maintenance
+      - Armory
+      - Detective
+      - Brig
+      - Cryogenics
+      - Security
+      - Service
+      - External
+
+- type: entity
+  id: ElysiumFederationIDCardPassenger
+  parent: PassengerIDCard
+  name: Federation ID card
+  suffix: Elysium_Prime
+  components:
+    - type: Sprite
+      sprite: Imperial/ElysiumPrime/card.rsi
+      layers:
+        - state: federation
+    - type: Clothing
+      slots:
+        - idcard
+      sprite: Imperial/ElysiumPrime/card.rsi
+    - type: PresetIdCard
+      job: #none
+    - type: Access
+      tags:
+      - Maintenance
+
 #Federation PDA
 - type: entity
   id: ElysiumFederationPDA
@@ -102,6 +149,38 @@
     state: pda-elysiumFederation
   - type: Pda
     id: ElysiumFederationIDCard
+    state: pda-elysiumFederation
+  - type: PdaBorderColor
+    borderColor: "#242424"
+    accentHColor: "#447987"
+
+- type: entity
+  id: ElysiumFederationPDAWithWardenID
+  parent: BaseCustomPDA
+  name: Federation PDA
+  description:  #none
+  suffix: Elysium_Prime
+  components:
+  - type: Icon
+    state: pda-elysiumFederation
+  - type: Pda
+    id: ElysiumFederationIDCardWarden
+    state: pda-elysiumFederation
+  - type: PdaBorderColor
+    borderColor: "#242424"
+    accentHColor: "#447987"
+
+- type: entity
+  id: ElysiumFederationPDAWithPassengerID
+  parent: BaseCustomPDA
+  name: Federation PDA
+  description:  #none
+  suffix: Elysium_Prime
+  components:
+  - type: Icon
+    state: pda-elysiumFederation
+  - type: Pda
+    id: ElysiumFederationIDCardPassenger
     state: pda-elysiumFederation
   - type: PdaBorderColor
     borderColor: "#242424"

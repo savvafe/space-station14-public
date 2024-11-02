@@ -1,0 +1,16 @@
+- type: storePreset
+  id: StorePresetTradingTerminal
+  storeName: Trading terminal
+  categories:
+  - FegerationTerminalWeapons
+  - FegerationTerminalAmmo
+  - FegerationTerminalExplosion
+  - FegerationTerminalGasMasks
+  - FegerationTerminalHelmets
+  - FegerationTerminalBackPacks
+  - FegerationTerminalEquipment
+  - FegerationTerminalUniforms
+  - FegerationTerminalMedicine
+  - FegerationTerminalOther
+  currencyWhitelist:
+  - FederationCash
