@@ -2,7 +2,7 @@
   parent: ClothingMaskPullableBase
   id: ClothingKrilSmall
   name: Small wings
-  suffix: Ведьмы
+  suffix: Vl, Ведьмы
   description: A little less, but still... Overbearing...
   components:
   - type: Item

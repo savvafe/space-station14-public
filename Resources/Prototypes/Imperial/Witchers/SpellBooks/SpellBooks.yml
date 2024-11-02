@@ -1,7 +1,7 @@
 - type: entity
   id: WtchersBookVendigo
   name: The Wendigo Summoning Book
-  suffix: Ведьмы
+  suffix: Vl, Ведьмы
   parent: BaseSpellbook
   components:
     - type: Item
@@ -13,7 +13,7 @@
 - type: entity
   id: WtchersBookYlitka
   name: The Snail Summoning Book
-  suffix: Ведьмы
+  suffix: Vl, Ведьмы
   parent: BaseSpellbook
   components:
     - type: Item
@@ -25,7 +25,7 @@
 - type: entity
   id: WtchersBookVorons
   name: The Raven Summoning Book
-  suffix: Ведьмы
+  suffix: Vl, Ведьмы
   parent: BaseSpellbook
   components:
     - type: Item

@@ -1,6 +1,6 @@
 - type: entity
   name: Wendigo
-  suffix: Ведьмы
+  suffix: Vl, Ведьмы
   parent: SimpleSpaceMobBase
   id: WitchersVendigo
   description: A huge fluffy and scary monster. They usually serve witches. Either run or risk petting him.

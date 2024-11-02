@@ -1,6 +1,6 @@
 - type: entity
   name: Bella
-  suffix: Ведьмы
+  suffix: Vl, Ведьмы
   parent: SimpleSpaceMobBase
   id: WitchersBella
   description: A huge fluffy and cute (not) monster. They usually serve witches. Either run or risk petting her.

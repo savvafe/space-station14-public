@@ -2,7 +2,7 @@
   parent: ClothingOuterStorageBase
   id: WitcherRedDress
   name: The Scarlet Witch's Dress
-  suffix: Ведьмы
+  suffix: Vl, Ведьмы
   description: A beautiful long scarlet witch dress.
   components:
   - type: Item

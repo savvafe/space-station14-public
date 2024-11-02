@@ -2,7 +2,7 @@
   parent: ClothingUniformBase
   id: WitcherKombvOne
   name: Witch's Underwear
-  suffix: Ведьмы
+  suffix: Vl, Ведьмы
   description: Standard witch underwear.
   components:
   - type: Item

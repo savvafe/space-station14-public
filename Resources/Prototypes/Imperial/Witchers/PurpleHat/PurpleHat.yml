@@ -2,7 +2,7 @@
   parent: ClothingHeadBase
   id: WitchersPurpleHat
   name: The Witch's Hat
-  suffix: Ведьмы
+  suffix: Vl, Ведьмы
   description: The purple witch hat.
   components:
   - type: Item
