@@ -20,6 +20,7 @@
             - Passenger
           availableJobs:
             #service
+            Adjutant: [ 1, 1]
             Captain: [ 1, 1 ]
             HeadOfPersonnel: [ 1, 1 ]
             Bartender: [ 1, 1 ]

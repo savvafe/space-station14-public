@@ -2,6 +2,7 @@
   parent: ClothingHandsGlovesColorBlack
   id: WitchersRedGloves
   name: Scarlet Witch Gloves
+  suffix: Vl, Ведьмы
   description: Beautiful scarlet witch gloves.
   components:
   - type: Item

@@ -1,6 +1,6 @@
 - type: entity
   name: Raven
-  suffix: Ведьмы, Враждебный
+  suffix: Vl, Ведьмы, Враждебный
   parent: [ SimpleMobBase, FlyingMobBase ]
   id: MobVoronVr
   description: Handsome, black, angry, raven.
@@ -13,7 +13,7 @@
     layers:
     - map: ["enum.DamageStateVisualLayers.Base"]
       state: voron
-      sprite: Imperial\Witchers\Voron.rsi
+      sprite: Imperial/Witchers/Voron.rsi
   - type: Fixtures
     fixtures:
       fix1:

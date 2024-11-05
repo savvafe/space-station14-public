@@ -1,0 +1,338 @@
+- type: entity
+  parent: ClothingUniformJumpskirtHoSAlt
+  id: VlArcaneMercJumpsuit
+  name: mercenary's jumpsuit
+  suffix: Vl, Arcane
+  description: Sewn from cheap synthetic fabric scraps. He seems to have survived more than one war.
+  components:
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/Jumpsuit.rsi
+  - type: Clothing
+    sprite: Imperial/ArcaneStation/Merc/Jumpsuit.rsi
+
+- type: entity
+  parent: ClothingBeltStorageBase
+  id: VlArcaneMercWebbing
+  suffix: Vl, Arcane
+  name: Mercenary's RPS
+  description: The standard set of unloading a free mercenary.
+  components:
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/Webbing.rsi
+  - type: Clothing
+    sprite: Imperial/ArcaneStation/Merc/Webbing.rsi
+  - type: Item
+    size: Large
+  - type: Storage
+    maxItemSize: Huge
+    grid:
+    - 0,0,5,3
+
+- type: entity
+  parent: ClothingHeadHardsuitWithLightBase
+  id: VlArcaneMercCMDSuitTwo
+  noSpawn: true
+  suffix: Vl, Arcane
+  name: Combat Suit Helmet
+  description: A standard helmet from a mercenary's combat suit. It looks terrifying.
+  components:
+  - type: Item
+    size: Normal
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/CMDSuitTwo.rsi
+  - type: Clothing
+    sprite: Imperial/ArcaneStation/Merc/CMDSuitTwo.rsi
+  - type: PointLight
+    color: "#FF0000"
+  - type: PressureProtection
+    highPressureMultiplier: 0.1
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.95
+        Shock: 0.9
+        Caustic: 0.6
+        Radiation: 0.9
+
+- type: entity
+  parent: ClothingOuterHardsuitBase
+  id: VlArcaneMercCMDSuitOne
+  name: A Mercenary's Combat Suit
+  suffix: Vl, Arcane
+  description: An advanced, sometimes rusty mercenary spacesuit.
+  components:
+  - type: Item
+    size: Huge
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/CMDSuitOne.rsi
+  - type: Clothing
+    sprite: Imperial/ArcaneStation/Merc/CMDSuitOne.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.04
+    lowPressureMultiplier: 1000
+  - type: TemperatureProtection
+    coefficient: 0.01
+  - type: ExplosionResistance
+    damageCoefficient: 0.5
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.5
+        Slash: 0.5
+        Piercing: 0.35
+        Shock: 0.5
+        Caustic: 0.9
+        Radiation: 0.6
+  - type: ClothingSpeedModifier
+    walkModifier: 0.9
+    sprintModifier: 0.9
+  - type: ToggleableClothing
+    clothingPrototype: VlArcaneMercCMDSuitTwo
+
+- type: entity
+  parent: ClothingHeadHardsuitWithLightBase
+  id: VlArcaneMercDEFSuitTwo
+  noSpawn: true
+  suffix: Vl, Arcane
+  name: The helmet of the spacesuit
+  description: A standard helmet from a mercenary's spacesuit. The flashlight on your forehead looks like a mark for a sniper, but you're wearing it anyway, daredevil.
+  components:
+  - type: Item
+    size: Normal
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/DEFSuitTwo.rsi
+  - type: Clothing
+    sprite: Imperial/ArcaneStation/Merc/DEFSuitTwo.rsi
+  - type: PointLight
+    color: "#FF0000"
+  - type: PressureProtection
+    highPressureMultiplier: 0.1
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.95
+        Slash: 0.95
+        Piercing: 0.95
+        Caustic: 0.75
+        Radiation: 0.9
+
+- type: entity
+  parent: ClothingOuterHardsuitBase
+  id: VlArcaneMercDEFSuitOne
+  name: The Mercenary's Spacesuit
+  suffix: Vl, Arcane
+  description: A standard space mercenary spacesuit. It's not as good as ordinary Earth gear in terms of protection, but it can protect against pressure.
+  components:
+  - type: Item
+    size: Huge
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/DEFSuitOne.rsi
+  - type: Clothing
+    sprite: Imperial/ArcaneStation/Merc/DEFSuitOne.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.04
+    lowPressureMultiplier: 1000
+  - type: TemperatureProtection
+    coefficient: 0.01
+  - type: ExplosionResistance
+    damageCoefficient: 0.5
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.7
+        Slash: 0.7
+        Piercing: 0.55
+        Shock: 0.7
+        Caustic: 0.9
+        Radiation: 0.75
+  - type: ClothingSpeedModifier
+    walkModifier: 0.9
+    sprintModifier: 0.9
+  - type: ToggleableClothing
+    clothingPrototype: VlArcaneMercDEFSuitTwo
+
+- type: entity
+  parent: ClothingMaskGas
+  id: VlArcaneMercMask
+  name: The mercenary's gas mask
+  suffix: Vl, Arcane
+  description: The usual gas mask of a mercenary. Apparently, it was stolen from some kind of military warehouse.
+  components:
+  - type: Item
+    size: Small
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/Mask.rsi
+  - type: Clothing
+    sprite: Imperial/ArcaneStation/Merc/Mask.rsi
+
+- type: entity
+  parent: ClothingShoesBase
+  id: VlArcaneMercMagBoots
+  name: Magnetic Mercenary Boots
+  suffix: Vl, Arcane
+  description: Ordinary magnetic shoes... At first sight. In fact, it looks like someone modified them quite well. However, they have become much heavier.
+  components:
+  - type: Item
+    size: Small
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/MagBoots.rsi
+    state: icon
+  - type: Clothing
+    sprite: Imperial/ArcaneStation/Merc/MagBoots.rsi
+  - type: Magboots
+    toggleAction: ActionToggleMagbootsSyndie
+  - type: GasTank
+    outputPressure: 42.6
+    air:
+      volume: 0.75
+      temperature: 293.15
+      moles:
+        - 0.153853429
+        - 0.153853429
+  - type: ActivatableUI
+    key: enum.SharedGasTankUiKey.Key
+  - type: UserInterface
+    interfaces:
+      - key: enum.SharedGasTankUiKey.Key
+        type: GasTankBoundUserInterface
+  - type: Explosive
+    explosionType: Default
+    maxIntensity: 20
+  - type: Jetpack
+    moleUsage: 0.00085
+  - type: CanMoveInAir
+  - type: InputMover
+    toParent: true
+  - type: MovementSpeedModifier
+    weightlessAcceleration: 1
+    weightlessFriction: 0.3
+    weightlessModifier: 0.8
+
+- type: entity
+  parent: ClothingHeadBase
+  id: VlArcaneMercHelmet
+  name: The Mercenary's Helmet
+  suffix: Vl, Arcane
+  description: An old military helmet. The inscription on his forehead was almost erased.
+  components:
+  - type: Item
+    size: Small
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/Helmet.rsi
+  - type: Clothing
+    sprite: Imperial/ArcaneStation/Merc/Helmet.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.85
+        Slash: 0.85
+        Piercing: 0.85
+        Heat: 0.85
+
+- type: entity
+  parent: ClothingHandsGlovesSyntheticBase
+  id: VlArcaneMercGloves
+  name: Mercenary Gloves
+  suffix: Vl, Arcane
+  description: Worn gloves. It is clear that they knocked out more than one muzzle.
+  components:
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/Gloves.rsi
+  - type: Clothing
+    sprite: Imperial/ArcaneStation/Merc/Gloves.rsi
+  - type: Insulated
+  - type: Fiber
+    fiberMaterial: fibers-insulative
+
+- type: entity
+  parent: ClothingOuterStorageBase
+  id: VlArcaneMercArmor
+  name: Mercenary's Bulletproof Vest
+  suffix: Vl, Arcane
+  description: Surprisingly, a whole bulletproof vest. Of course, he's holding his breath, but he can handle a few large-caliber bullets.
+  components:
+  - type: Item
+    size: Normal
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/Armor.rsi
+  - type: Clothing
+    sprite: Imperial/ArcaneStation/Merc/Armor.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.4
+        Heat: 0.6
+        Stamina: 0.6
+  - type: ExplosionResistance
+    damageCoefficient: 0.6
+
+- type: entity
+  parent: ClothingHeadset
+  id: VlMercHeadset
+  name: The headset of mercenaries
+  suffix: Vl, Arcane
+  description: The usual headset of space dogs.
+  components:
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyGanza
+      - VlArcaneMercRadioKey
+  - type: Sprite
+    sprite: Clothing/Ears/Headsets/base.rsi
+  - type: Clothing
+    sprite: Clothing/Ears/Headsets/base.rsi
+
+- type: entity
+  parent: ClothingHeadBase
+  id: VlMercBeret
+  name: Takes a mercenary
+  suffix: Vl, Arcane
+  description: Stylish takes the leader of the mercenaries.
+  components:
+  - type: Item
+    size: Small
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/Beret.rsi
+  - type: Clothing
+    sprite: Imperial/ArcaneStation/Merc/Beret.rsi
+  - type: Tag
+    tags:
+    - ClothMade
+
+- type: entity
+  id: VlMercSecure
+  parent: LockerBaseSecure
+  name: The Mercenary Locker
+  suffix: Vl, Arcane
+  components:
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/Locker.rsi
+  - type: Appearance
+  - type: EntityStorageVisuals
+    stateBaseClosed: merc
+    stateDoorOpen: merc_open
+    stateDoorClosed: merc_door
+  - type: AccessReader
+    access: [ [ "Merc" ] ]
+
+- type: entity
+  parent: ClothingBackpack
+  id: VlMercBackpack
+  name: The Mercenaries' Backpack
+  description: This backpack most likely managed to outlive its first owner.
+  components:
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/Backpack.rsi
+  - type: Storage
+    grid:
+    - 0,0,10,3
+  - type: StorageFill
+    contents:
+      - id: BoxSurvival

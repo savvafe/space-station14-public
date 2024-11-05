@@ -1,6 +1,6 @@
 - type: entity
   name: The Big Snail
-  suffix: Ведьмы, Враждебная
+  suffix: Vl, Ведьмы, Враждебная
   parent: MobSloth
   id: WitchersYlitkaVr
   description: This... Just a big snail... Why does she have eyes from below?...

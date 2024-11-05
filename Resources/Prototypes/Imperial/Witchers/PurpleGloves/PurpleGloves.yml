@@ -2,6 +2,7 @@
   parent: ClothingHandsGlovesColorBlack
   id: WitchersPurpleGloves
   name: Перчатки пурпурной ведьмы
+  suffix: Vl, Ведьмы
   description: Красивые перчатки пурпурной ведьмы.
   components:
   - type: Item

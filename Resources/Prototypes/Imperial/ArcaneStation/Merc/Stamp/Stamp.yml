@@ -1,0 +1,14 @@
+- type: entity
+  name: Seal of the Mercenaries
+  parent: RubberStampBaseAlt
+  id: ArcaneMercStamp
+  description: The usual seal of important mercenaries.
+  suffix: Vl, Arcane
+  components:
+  - type: Stamp
+    stampedName: Наёмное бюро
+    stampedColor: "#426100"
+    stampState: "paper_stamp-centcom"
+  - type: Sprite
+    sprite: Imperial/ArcaneStation/Merc/Stamp.rsi
+    state: stamp-merc

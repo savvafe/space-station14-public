@@ -36,3 +36,69 @@
   - type: Sprite
     sprite: Imperial/VlPlushes/PlushVen
     state: Plush
+
+- type: entity
+  parent: BasePlushieCharacter
+  id: PlushieAdriCent
+  name: Adriana Blake
+  suffix: Vl, COMMUNITY, TOY
+  description: Many people think that CentCom representatives are aiming to fire the Captain, even when he is not to blame. In most cases, this is true.
+  components:
+  - type: Item
+    size: Small
+  - type: Sprite
+    sprite: Imperial/VlPlushes/PlushAdriCent
+    state: Plush
+  - type: StorageFill
+    contents:
+      - id: PenCentcom
+      - id: ClothingHeadFlowerCentComEmerald
+
+- type: entity
+  parent: BasePlushieCharacter
+  id: PlushieAdriOSO
+  name: Adriana Blake
+  suffix: Vl, COMMUNITY, TOY
+  description: Controlling fighters is not easy. However, deciding the fate of an entire station is even more difficult.
+  components:
+  - type: Item
+    size: Small
+  - type: Sprite
+    sprite: Imperial/VlPlushes/PlushAdriOSO
+    state: Plush
+  - type: StorageFill
+    contents:
+      - id: PenDSO
+      - id: ClothingHeadFlowerDSOWhite
+
+- type: entity
+  name: Spawner
+  id: AdriPlushieSpawner
+  suffix: Vl, COMMUNITY,TOY
+  parent: MarkerBase
+  components:
+    - type: Sprite
+      layers:
+        - state: red
+        - sprite: Imperial/Sona/Plush
+          state: AdriPl
+    - type: RandomSpawner
+      prototypes:
+        - PlushieAdri
+        - PlushieAdriOSO
+        - PlushieAdriCent
+      chance: 1
+      offset: 0.10
+
+- type: entity
+  parent: BasePlushieCharacter
+  id: PlushieClaud
+  name: Claudius the Great
+  suffix: Vl, COMMUNITY, TOY
+  description: A toy of a thoughtful captain with gorgeous hair holding a chess piece of a pawn in his hand.
+  components:
+  - type: Item
+    size: Small
+  - type: Sprite
+    sprite: Imperial/VlPlushes/PlushClaud
+    state: Plush
