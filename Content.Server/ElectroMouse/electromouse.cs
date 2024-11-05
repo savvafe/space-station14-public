@@ -12,12 +12,8 @@ using Content.Server.Power.Components;
 using Content.Shared.DoAfter;
 using Content.Shared.Popups;
 using System.Numerics;
-using Content.Shared.Maps;
-using Content.Shared.Physics;
 using Robust.Server.GameObjects;
 using Content.Shared.Revenant.Components;
-using Content.Shared.Stunnable;
-using Content.Shared.StatusEffect;
 using Content.Server.Light.Components;
 using Content.Server.Ghost;
 using Content.Shared.Mobs.Components;
@@ -26,7 +22,17 @@ using System.Linq;
 using Content.Shared.Doors.Components;
 using Robust.Shared.Audio.Systems;
 using Content.Shared.Damage;
-using Content.Shared.ElectroMouseHarvested;
+using Content.Shared.Weapons.Ranged.Components;
+using Content.Shared.Weapons.Reflect;
+using Robust.Shared.Timing;
+using Content.Shared.ElectroMouseShield.Components;
+using Content.Server.Emp;
+using Content.Shared.Movement.Components;
+using Content.Shared.Movement.Systems;
+using Content.Server.Stunnable;
+using Content.Shared.Ninja.Systems;
+using Content.Server.Power.EntitySystems;
+using Content.Server.Power.SMES;
 
 namespace Content.Server.ElectroMouse.EntitySystems;
 
@@ -38,18 +44,23 @@ public sealed partial class ElectroMouseSystem : EntitySystem
     [Dependency] private readonly AlertsSystem _alerts = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
-    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
-    [Dependency] private readonly PhysicsSystem _physics = default!;
-    [Dependency] private readonly SharedStunSystem _stun = default!;
-    [Dependency] private readonly StatusEffectsSystem _statusEffects = default!;
     [Dependency] private readonly GhostSystem _ghost = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly SharedInteractionSystem _interact = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
+    // [Dependency] private readonly SolutionContainerSystem _solutionContainer = default!;
+    [Dependency] private readonly IGameTiming _gameTiming = default!;
+    [Dependency] private readonly EmpSystem _empSystem = default!;
+    [Dependency] private readonly TransformSystem _transform = default!;
+    [Dependency] private readonly DamageableSystem _damageable = default!;
+    [Dependency] private readonly SharedPointLightSystem _pointLight = default!;
+    [Dependency] private readonly MovementSpeedModifierSystem _movementSpeedModifierSystem = default!;
+    [Dependency] private readonly StunSystem _stun = default!;
+    [Dependency] private readonly BatterySystem _battery = default!;
     public Vector2? Coordinates;
     [ValidatePrototypeId<EntityPrototype>]
-    private const string RevenantShopId = "ActionElectroMouseShop";
+    private const string ShopId = "ActionElectroMouseShop";
 
     public override void Initialize()
     {
@@ -61,9 +72,171 @@ public sealed partial class ElectroMouseSystem : EntitySystem
         SubscribeLocalEvent<ElectroMouseComponent, HarvestEvent>(OnHarvest);
         SubscribeLocalEvent<ElectroMouseComponent, ElectroMouseOverloadLightsActionEvent>(OnOverloadLightsAction);
         SubscribeLocalEvent<ElectroMouseComponent, ElectroMouseDashEvent>(DashAbility);
+        SubscribeLocalEvent<ElectroMouseComponent, ElectroMouseHealEvent>(OnHeal);
+        SubscribeLocalEvent<ElectroMouseComponent, ElectroMouseShieldEvent>(OnShield);
+        SubscribeLocalEvent<ElectroMouseComponent, ElectroMouseEmpEvent>(OnEmp);
+        SubscribeLocalEvent<ElectroMouseComponent, ElectroMouseSpeedEvent>(OnSpeed);
+        SubscribeLocalEvent<ElectroMouseComponent, ElectroMouseDoubleEvent>(OnDouble);
+        SubscribeLocalEvent<ElectroMouseComponent, ElectroMouseUpgradeEvent>(OnUpgrade);
+        SubscribeLocalEvent<ElectroMouseComponent, DrainDoAfterEvent>(OnDoAfterApc);
     }
+    private void OnUpgrade(EntityUid uid, ElectroMouseComponent component, ElectroMouseUpgradeEvent args)
+    {
+        if (args.Handled)
+            return;
+        args.Handled = true;
+        component.DashEnergy = 4;
+        component.EmpRadius = 7;
+        component.Duration = 4;
+        component.HealingStrength = 15;
+    }
+    public override void Update(float frameTime)
+    {
+        if (!_gameTiming.IsFirstTimePredicted)
+            return;
+        var curTime = _gameTiming.CurTime;
+        var query = EntityQueryEnumerator<ElectroMouseComponent>();
+        while (query.MoveNext(out var uid, out var component))
+        {
+            if (TryComp<MovementSpeedModifierComponent>(uid, out var movementSpeedModifier))
+            {
+                var speedmodifier = (float) component.Energy / 200 + 5f;
+                if (component.IsSpeed && speedmodifier >= 15f)
+                    speedmodifier = 15f;
+                else if (!component.IsSpeed && speedmodifier >= 10f)
+                    speedmodifier = 10f;
+                _movementSpeedModifierSystem.ChangeBaseSpeed(uid, speedmodifier, speedmodifier, 20, movementSpeedModifier);
+            }
+            if (component.TimeUtilSpeed <= curTime && component.IsSpeed)
+            {
+                if (component.Energy > 1)
+                {
+                    AddEnergy(uid, component, -1);
+                    component.TimeUtilSpeed = _gameTiming.CurTime + TimeSpan.FromSeconds(1.5);
+                }
+                else
+                    component.IsSpeed = false;
+            }
+            if (movementSpeedModifier != null && component.IsSpeed)
+            {
+                var lookup = _lookup.GetEntitiesInRange(uid, 0.5f, LookupFlags.Approximate | LookupFlags.Static);
+                foreach (var ent in lookup)
+                {
+                    if (HasComp<ApcPowerProviderComponent>(ent) && !component.IsChanged)
+                    {
+                        var newspeed = (float) movementSpeedModifier.BaseWalkSpeed * 2;
+                        _movementSpeedModifierSystem.ChangeBaseSpeed(uid, newspeed, newspeed, 20, movementSpeedModifier);
+                        component.IsChanged = true;
+                    }
+                    else if (!HasComp<ApcPowerProviderComponent>(ent) && component.IsChanged)
+                    {
+                        var newspeed = (float) movementSpeedModifier.BaseWalkSpeed / 2;
+                        _movementSpeedModifierSystem.ChangeBaseSpeed(uid, newspeed, newspeed, 20, movementSpeedModifier);
+                        component.IsChanged = false;
+                        component.IsSpeed = false;
+                    }
+                }
+            }
+            if (TryComp<DamageableComponent>(uid, out var damageableComponent))
+            {
+                var total = FixedPoint2.Zero;
+                foreach (var value in damageableComponent.Damage.DamageDict.Values)
+                {
+                    total += value;
+                }
+                if (total >= 50 || component.Energy <= 0)
+                {
+                    Spawn(component.SpawnOnDeathPrototype, Transform(uid).Coordinates);
+                    QueueDel(uid);
+                }
+            }
+            if (component.TimeUtil <= curTime && component.IsActiveShield)
+            {
+                RemComp<ReflectComponent>(uid);
+                component.IsActiveShield = false;
+                RemComp<ElectroMouseShieldComponent>(uid);
+            }
+        }
+    }
+    private void OnDouble(EntityUid uid, ElectroMouseComponent component, ElectroMouseDoubleEvent args)
+    {
+        if (component.Energy <= 100 || args.Handled)
+        {
+            _popup.PopupEntity("Недостаточно энергии", uid, uid);
+            return;
+        }
+        args.Handled = true;
+        AddEnergy(uid, component, -100);
+        Spawn("ElectroMouse", Transform(uid).Coordinates);
+    }
+    private void OnSpeed(EntityUid uid, ElectroMouseComponent component, ElectroMouseSpeedEvent args)
+    {
+        if (!_gameTiming.IsFirstTimePredicted)
+            return;
+        if (args.Handled)
+            return;
+        args.Handled = true;
+        component.IsSpeed = !component.IsSpeed;
+        Dirty(uid, component);
+        if (!component.CanSmesEtc)
+            component.CanSmesEtc = true;
+    }
+    private void OnEmp(EntityUid uid, ElectroMouseComponent component, ElectroMouseEmpEvent args)
+    {
+        if (args.Handled)
+            return;
+        args.Handled = true;
+        var coords = _transform.GetMapCoordinates(uid);
+        if (component.Energy <= 20)
+        {
+            _popup.PopupEntity("Недостаточно энергии", uid, uid);
+            return;
+        }
+        _empSystem.EmpPulse(coords, component.EmpRadius, 10000, 120);
+        AddEnergy(uid, component, -20);
+        if (TryComp<PointLightComponent>(uid, out var pointLightComponent))
+        {
+            var newenerg = pointLightComponent.Energy + 2.5f;
+            var newrad = pointLightComponent.Radius + 0.2f;
+            _pointLight.SetEnergy(uid, newenerg, pointLightComponent);
+            _pointLight.SetRadius(uid, newrad, pointLightComponent);
+        }
+    }
+    private void OnShield(EntityUid uid, ElectroMouseComponent component, ElectroMouseShieldEvent args)
+    {
+        if (!_gameTiming.IsFirstTimePredicted)
+            return;
 
+        if (args.Handled)
+            return;
 
+        args.Handled = true;
+        if (!component.CanAPC)
+            component.CanAPC = true;
+        if (component.Energy <= 20)
+        {
+            _popup.PopupEntity("Недостаточно энергии", uid, uid);
+            return;
+        }
+        if (!HasComp<ReflectComponent>(uid))
+        {
+            AddComp<ReflectComponent>(uid);
+            if (!TryComp<ReflectComponent>(uid, out var reflectComponent) || !TryComp<PointLightComponent>(uid, out var pointLightComponent))
+                return;
+            component.IsActiveShield = true;
+            AddEnergy(uid, component, -20);
+            AddComp<ElectroMouseShieldComponent>(uid);
+            reflectComponent.ReflectProb = 1.0f;
+            var newenerg = pointLightComponent.Energy + 2.5f;
+            var newrad = pointLightComponent.Radius + 0.2f;
+            _pointLight.SetEnergy(uid, newenerg, pointLightComponent);
+            _pointLight.SetRadius(uid, newrad, pointLightComponent);
+            Dirty(uid, pointLightComponent);
+            component.TimeUtil = _gameTiming.CurTime + TimeSpan.FromSeconds(component.Duration);
+            if (!component.CanAPC)
+                component.CanAPC = true;
+        }
+    }
     private void OnShop(EntityUid uid, ElectroMouseComponent component, ElectroMouseShopActionEvent args)
     {
         if (!TryComp<StoreComponent>(uid, out var store))
@@ -73,7 +246,30 @@ public sealed partial class ElectroMouseSystem : EntitySystem
 
     private void OnMapInit(EntityUid uid, ElectroMouseComponent component, MapInitEvent args)
     {
-        _action.AddAction(uid, ref component.Action, RevenantShopId);
+        _action.AddAction(uid, ref component.Action, ShopId);
+    }
+    private void OnInteract(EntityUid uid, ElectroMouseComponent component, InteractNoHandEvent args)
+    {
+        if (args.Target == null)
+            return;
+        var target = args.Target.Value;
+        if (HasComp<PoweredLightComponent>(target))
+        {
+            args.Handled = _ghost.DoGhostBooEvent(target);
+            return;
+        }
+        if (component.Harvested.Contains(target))
+        {
+            _popup.PopupEntity(Loc.GetString("electromouse-harvested"), uid, uid);
+            return;
+        }
+        if (HasComp<DoorComponent>(target))
+            return;
+        if (HasComp<ApcPowerReceiverComponent>(target) || HasComp<HitscanBatteryAmmoProviderComponent>(target) || HasComp<ProjectileBatteryAmmoProviderComponent>(target) || HasComp<PowerNetworkBatteryComponent>(target))
+        {
+            args.Handled = true;
+            BeginHarvestDoAfter(uid, target, component);
+        }
     }
     private void DashAbility(EntityUid uid, ElectroMouseComponent comp, ElectroMouseDashEvent args)
     {
@@ -81,11 +277,14 @@ public sealed partial class ElectroMouseSystem : EntitySystem
         {
             return;
         }
+        if (args.Handled)
+            return;
+        args.Handled = true;
         var entityManager = IoCManager.Resolve<IEntityManager>();
 
         var xformSystem = entityManager.System<TransformSystem>();
 
-        var energy = 2;
+        var energy = comp.DashEnergy;
 
         var mapPosition = xformSystem.GetWorldPosition(uid);
         var reactionBounds = new Box2(mapPosition - new Vector2(energy, energy), mapPosition + new Vector2(energy, energy));
@@ -99,7 +298,7 @@ public sealed partial class ElectroMouseSystem : EntitySystem
                 uid,
                 (Vector2) newPosition
             );
-        _audio.PlayPvs(comp.BlinkSound, uid);
+        _audio.PlayPvs(comp.DashSound, uid);
     }
     private static Vector2 GetPositionFromRotation(Box2 reactionBounds, float energy, EntityUid uid)
     {
@@ -113,7 +312,7 @@ public sealed partial class ElectroMouseSystem : EntitySystem
 
         return reactionBounds.Center - resultVector;
     }
-    public bool ChangeEnergyAmount(EntityUid uid, FixedPoint2 amount, ElectroMouseComponent? component = null, bool allowDeath = true, bool regenCap = false)
+    private bool ChangeEnergyAmount(EntityUid uid, FixedPoint2 amount, ElectroMouseComponent? component = null, bool allowDeath = true, bool regenCap = false)
     {
         if (!Resolve(uid, ref component))
             return false;
@@ -131,107 +330,154 @@ public sealed partial class ElectroMouseSystem : EntitySystem
 
         return true;
     }
-    private void AddEnergy(EntityUid uid, ElectroMouseComponent component, int energ)
+    private void AddEnergy(EntityUid uid, ElectroMouseComponent component, FixedPoint2 energ)
     {
         var store = EnsureComp<StoreComponent>(uid);
         // Get the ElectroMouseComponent instance from the entity
-        if (EntityManager.TryGetComponent(uid, out ElectroMouseComponent? electroMouseComponent))
+        if (TryComp<ElectroMouseComponent>(uid, out var electroMouseComponent))
         {
-            ChangeEnergyAmount(uid, electroMouseComponent.Energy, component);
+            ChangeEnergyAmount(uid, energ, component);
             _store.TryAddCurrency(new Dictionary<string, FixedPoint2> { { component.StolenEnergyCurrencyPrototype, energ } }, uid, store);
         }
     }
 
-    private void OnInteract(EntityUid uid, ElectroMouseComponent component, InteractNoHandEvent args)
+    // private void Inject(EntityUid target, string reagent, FixedPoint2 value)
+    // {
+    //     if (value <= 0 || reagent == null || !HasComp<BodyComponent>(target) || !_solutionContainer.TryGetInjectableSolution(target, out var injsol, out _))
+    //         return;
+    //     _solutionContainer.TryAddReagent(injsol.Value, reagent, value);
+    // }
+    private void BeginHarvestDoAfter(EntityUid uid, EntityUid target, ElectroMouseComponent comp)
     {
-        if (args.Target == null)
+        if (TryComp<HitscanBatteryAmmoProviderComponent>(target, out var hitprov) && hitprov.Shots == 0)
             return;
-        var target = args.Target.Value;
-        if (HasComp<PoweredLightComponent>(target))
+        if (TryComp<ProjectileBatteryAmmoProviderComponent>(target, out var projprov) && projprov.Shots == 0)
+            return;
+        if (HasComp<HitscanBatteryAmmoProviderComponent>(target) && !comp.CanBattery)
+            return;
+        if (HasComp<ProjectileBatteryAmmoProviderComponent>(target) && !comp.CanBattery)
+            return;
+        if (HasComp<PowerNetworkBatteryComponent>(target))
         {
-            args.Handled = _ghost.DoGhostBooEvent(target);
+            DoAfterApcEtc(uid, comp, target);
             return;
         }
-        if (HasComp<ElectroMouseHarvestedComponent>(target))
-        {
-            _popup.PopupEntity(Loc.GetString("electromouse-harvested"), uid, uid);
+        if (HasComp<LitOnPoweredComponent>(target) && !_pointLight.IsPowered(target, EntityManager))
             return;
-        }
-        if (!HasComp<ApcPowerReceiverComponent>(target))
-            return;
-        if (HasComp<DoorComponent>(target))
-            return;
-        args.Handled = true;
-        BeginHarvestDoAfter(uid, target, component);
-    }
-
-    private void BeginHarvestDoAfter(EntityUid uid, EntityUid target, ElectroMouseComponent revenant)
-    {
-        var doAfter = new DoAfterArgs(EntityManager, uid, revenant.HarvestDebuffs.X, new HarvestEvent(), uid, target: target)
+        var doAfter = new DoAfterArgs(EntityManager, uid, comp.HarvestDebuffs.X, new HarvestEvent(), uid, target: target)
         {
             DistanceThreshold = 2,
             BreakOnMove = true,
             BreakOnDamage = true,
             RequireCanInteract = false, // stuns itself
         };
-
+        _stun.TryStun(uid, TimeSpan.FromSeconds(5f), false);
         if (!_doAfter.TryStartDoAfter(doAfter))
             return;
-
-        _appearance.SetData(uid, RevenantVisuals.Harvesting, true);
-
-        _popup.PopupEntity(Loc.GetString("revenant-soul-begin-harvest", ("target", target)),
+        _popup.PopupEntity(Loc.GetString("electromouse-startharvest", ("target", target)),
             target, PopupType.Large);
-
-        TryUseAbility(uid, revenant, 0, revenant.HarvestDebuffs);
     }
-
-    private void OnHarvest(EntityUid uid, ElectroMouseComponent component, HarvestEvent args)
+    private void DoAfterApcEtc(EntityUid uid, ElectroMouseComponent component, EntityUid target)
     {
-        if (args.Handled || args.Target == null || !HasComp<ApcPowerReceiverComponent>(args.Target))
-            return;
-        var target = args.Target.Value;
-        _appearance.SetData(uid, RevenantVisuals.Harvesting, false);
-        _popup.PopupEntity(Loc.GetString("revenant-soul-finish-harvest", ("target", target)),
-            target, PopupType.Large);
-        AddComp<ElectroMouseHarvestedComponent>(target);
-        AddEnergy(uid, component, 5);
-        args.Handled = true;
-    }
-    private bool TryUseAbility(EntityUid uid, ElectroMouseComponent component, FixedPoint2 abilityCost, Vector2 debuffs)
-    {
-        if (component.Energy <= abilityCost)
+        var doAfterApc = new DoAfterArgs(EntityManager, uid, TimeSpan.FromSeconds(1f), new DrainDoAfterEvent(), target: target, eventTarget: uid)
         {
-            _popup.PopupEntity(Loc.GetString("revenant-not-enough-essence"), uid, uid);
+            MovementThreshold = 0.5f,
+            BreakOnMove = true,
+            CancelDuplicate = false,
+        };
+        if (HasComp<PowerNetworkBatteryComponent>(target) && component.CanSmesEtc)
+        {
+            _doAfter.TryStartDoAfter(doAfterApc);
+            return;
+        }
+        if (HasComp<ApcComponent>(target) && component.CanAPC)
+        {
+            _doAfter.TryStartDoAfter(doAfterApc);
+        }
+    }
+    private void OnDoAfterApc(EntityUid uid, ElectroMouseComponent component, DrainDoAfterEvent args)
+    {
+        if (args.Handled || args.Target == null)
+            return;
+        args.Repeat = TryDrainPower(uid, component, args.Target.Value);
+    }
+    private bool TryDrainPower(EntityUid uid, ElectroMouseComponent component, EntityUid target)
+    {
+        if (!TryComp<BatteryComponent>(target, out var targetBattery) || !TryComp<PowerNetworkBatteryComponent>(target, out var pnb))
+            return false;
+
+        if (targetBattery.CurrentCharge <= targetBattery.MaxCharge / 100 * 20)
+        {
+            _popup.PopupEntity(Loc.GetString("battery-drainer-empty", ("battery", target)), uid, uid, PopupType.Medium);
             return false;
         }
-
-        var tileref = Transform(uid).Coordinates.GetTileRef();
-        if (tileref != null)
+        var available = targetBattery.CurrentCharge;
+        int required;
+        if (HasComp<ApcComponent>(target))
         {
-            if (_physics.GetEntitiesIntersectingBody(uid, (int) CollisionGroup.Impassable).Count > 0)
-            {
-                _popup.PopupEntity(Loc.GetString("revenant-in-solid"), uid, uid);
-                return false;
-            }
+            required = 100;
         }
+        else if (HasComp<SmesComponent>(target))
+            required = 8500;
+        else
+            required = 5000;
+        _battery.UseCharge(target, required * 200, targetBattery);
+        Dirty(target, targetBattery);
+        var maxDrained = pnb.MaxSupply;
+        var input = Math.Min(Math.Min(available, required / 0.001f), maxDrained);
+        if (HasComp<ApcComponent>(target))
+            input = input * 10;
+        if (HasComp<SmesComponent>(target))
+            input = input * 2;
+        var output = input * 0.0001f;
+        AddEnergy(uid, component, output);
+        Spawn("EffectSparks", Transform(target).Coordinates);
+        _audio.PlayPvs(component.SparkSound, target);
 
-        ChangeEnergyAmount(uid, abilityCost, component, false);
-
-        _statusEffects.TryAddStatusEffect<CorporealComponent>(uid, "Corporeal", TimeSpan.FromSeconds(debuffs.Y), false);
-        _stun.TryStun(uid, TimeSpan.FromSeconds(debuffs.X), false);
-
+        // repeat the doafter until we get lower than 20%
         return true;
+    }
+    private void OnHarvest(EntityUid uid, ElectroMouseComponent component, HarvestEvent args)
+    {
+        if (args.Handled || args.Target == null)
+            return;
+        var target = args.Target.Value;
+        _popup.PopupEntity(Loc.GetString("electromouse-endharvest", ("target", target)),
+            target, PopupType.Large);
+        if (HasComp<ApcPowerReceiverComponent>(target))
+        {
+            component.Harvested.Add(target);
+            AddEnergy(uid, component, 5);
+        }
+        else if (TryComp<HitscanBatteryAmmoProviderComponent>(target, out var hitprov))
+        {
+            AddEnergy(uid, component, hitprov.Shots);
+            hitprov.Shots = 0;
+            Dirty(target, hitprov);
+        }
+        else if (TryComp<ProjectileBatteryAmmoProviderComponent>(target, out var projprov))
+        {
+            AddEnergy(uid, component, projprov.Shots);
+            projprov.Shots = 0;
+            Dirty(target, projprov);
+        }
+        args.Handled = true;
     }
     private void OnOverloadLightsAction(EntityUid uid, ElectroMouseComponent component, ElectroMouseOverloadLightsActionEvent args)
     {
         if (args.Handled)
             return;
-
-        if (!TryUseAbility(uid, component, component.OverloadCost, component.OverloadDebuffs))
+        if (component.Energy <= 25)
+        {
+            _popup.PopupEntity("Недостаточно энергии", uid, uid);
             return;
+        }
+        if (!component.CanBattery)
+            component.CanBattery = true; //at first overload make can eat from laser guns
 
         args.Handled = true;
+
+        AddEnergy(uid, component, -25);
 
         var xform = Transform(uid);
         var poweredLights = GetEntityQuery<PoweredLightComponent>();
@@ -255,6 +501,33 @@ public sealed partial class ElectroMouseSystem : EntitySystem
                 Transform(e).Coordinates.TryDistance(EntityManager, xform.Coordinates, out var dist) ? component.OverloadZapRadius : dist);
             var comp = EnsureComp<RevenantOverloadedLightsComponent>(allLight.First());
             comp.Target = ent; //who they gon fire at?
+        }
+    }
+    private void OnHeal(EntityUid uid, ElectroMouseComponent component, ElectroMouseHealEvent args)
+    {
+        if (args.Handled)
+            return;
+        args.Handled = true;
+
+        TryComp<DamageableComponent>(uid, out var damagecomp);
+        if (damagecomp != null && component.Energy >= 30)
+        {
+            var result = damagecomp.Damage.DamageDict.OrderByDescending(z => z.Value).ToDictionary(a => a, s => s).First().Key.Key.ToString();
+            if (result != null && damagecomp.Damage.DamageDict[result] >= component.HealingStrength)
+            {
+                AddEnergy(uid, component, -30);
+                DamageSpecifier damage = new()
+                {
+                    DamageDict = new()
+                    {
+                        { result, component.HealingStrength * -1 }
+                    }
+                };
+                _damageable.TryChangeDamage(uid, damage, false, true, damagecomp, origin: uid);
+                Dirty(uid, damagecomp);
+            }
+            else
+                _popup.PopupEntity("Вы не ранены", uid, uid);
         }
     }
 }

@@ -8,11 +8,31 @@ using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototy
 
 namespace Content.Shared.ElectroMouse.Components;
 
-[RegisterComponent, NetworkedComponent]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class ElectroMouseComponent : Component
 {
+    public bool IsChanged = false;
+    [DataField, ViewVariables(VVAccess.ReadWrite), AutoNetworkedField]
+    public int Range = 5;
+    [ViewVariables(VVAccess.ReadWrite), AutoNetworkedField]
+    public bool IsSpeed = false;
+    [ViewVariables(VVAccess.ReadWrite)]
+    public List<EntityUid> Harvested = new List<EntityUid>();
+
     [ViewVariables(VVAccess.ReadWrite)]
     public FixedPoint2 Energy = 1;
+    [ViewVariables(VVAccess.ReadWrite)]
+    public bool CanBattery = false;
+    [ViewVariables(VVAccess.ReadWrite)]
+    public bool CanAPC = false;
+    [ViewVariables(VVAccess.ReadWrite)]
+    public bool IsActiveShield = false;
+    [ViewVariables(VVAccess.ReadOnly)]
+    public TimeSpan TimeUtil;
+    [ViewVariables(VVAccess.ReadOnly)]
+    public TimeSpan TimeUtilSpeed;
+    [ViewVariables(VVAccess.ReadWrite), DataField]
+    public float Duration = 2.0f;
 
     [DataField("stolenEssenceCurrencyPrototype", customTypeSerializer: typeof(PrototypeIdSerializer<CurrencyPrototype>))]
     public string StolenEnergyCurrencyPrototype = "StolenEnergy";
@@ -20,17 +40,19 @@ public sealed partial class ElectroMouseComponent : Component
     /// <summary>
     /// Prototype to spawn when the entity dies.
     /// </summary>
-    [DataField("spawnOnDeathPrototype", customTypeSerializer:typeof(PrototypeIdSerializer<EntityPrototype>))]
+    [DataField("spawnOnDeathPrototype", customTypeSerializer: typeof(PrototypeIdSerializer<EntityPrototype>))]
     public string SpawnOnDeathPrototype = "AnomalyCoreElectroMouse";
 
     [DataField("harvestDebuffs")]
     public Vector2 HarvestDebuffs = new(5, 5);
 
     [DataField("blinkSound"), ViewVariables(VVAccess.ReadWrite)]
-    public SoundSpecifier BlinkSound = new SoundPathSpecifier("/Audio/Magic/blink.ogg")
+    public SoundSpecifier DashSound = new SoundPathSpecifier("/Audio/Magic/blink.ogg")
     {
         Params = AudioParams.Default.WithVolume(5f)
     };
+    [DataField, ViewVariables(VVAccess.ReadWrite)]
+    public int DashEnergy = 2;
     [ViewVariables(VVAccess.ReadWrite), DataField("overloadCost")]
     public FixedPoint2 OverloadCost = -40;
 
@@ -43,4 +65,12 @@ public sealed partial class ElectroMouseComponent : Component
     [ViewVariables(VVAccess.ReadWrite), DataField("overloadZapRadius")]
     public float OverloadZapRadius = 2f;
     [DataField] public EntityUid? Action;
+    [DataField, ViewVariables(VVAccess.ReadWrite)]
+    public int EmpRadius = 5;
+    [DataField, ViewVariables(VVAccess.ReadWrite)]
+    public int HealingStrength = 10;
+    [DataField("sparkSound")]
+    public SoundSpecifier SparkSound = new SoundCollectionSpecifier("sparks");
+    [DataField, ViewVariables(VVAccess.ReadWrite)]
+    public bool CanSmesEtc = false;
 }

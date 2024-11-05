@@ -1,7 +1,7 @@
 - type: entity
   id: ActionElectroMouseShop
-  name: Shop
-  description: Opens the ability shop.
+  name: Магазин
+  description: Открывает магазин способностей.
   noSpawn: true
   components:
   - type: InstantAction
@@ -10,8 +10,8 @@
 
 - type: entity
   id: ActionElectroMouseOverloadLights
-  name: Overload Lights
-  description: Delay 30 seconds.
+  name: Перегрузка света
+  description: Перезарядка 30 секунд.
   noSpawn: true
   components:
   - type: InstantAction
@@ -21,31 +21,77 @@
 
 - type: entity
   id: ActionElectroDash
-  name: Dash
-  description: Teleport to anywhere you see.
+  name: Рывок
+  description: Телепортирует вас на пару клеток вперед.
   noSpawn: true
   components:
   - type: InstantAction
-    useDelay: 30
-    itemIconStyle: BigAction
     icon: { sprite: Objects/Magic/magicactions.rsi, state: blink }
     event: !type:ElectroMouseDashEvent
+    useDelay: 15
 
 - type: entity
   id: ActionElectroMouseEmp
-  name: Активировать ЭМИ #Imperial translate
-  description: Вызывает небольшой ЭМИ-импульс вокруг вас. #Imperial translate
+  name: Активировать ЭМИ
+  description: Вызывает небольшой ЭМИ-импульс вокруг вас.
   noSpawn: true
   components:
   - type: InstantAction
+    event: !type:ElectroMouseEmpEvent
+    icon: { sprite: Objects/Weapons/Grenades/empgrenade.rsi, state: icon}
     useDelay: 30
-    itemIconStyle: BigAction
-    icon:
-      sprite: Objects/Weapons/Grenades/empgrenade.rsi
-      state: icon
-  - type: EmpOnTrigger
-    range: 6
-    energyConsumption: 50000
-    disableDuration: 60
 
+- type: entity
+  id: ActionElectroMouseHeal
+  name: Залечиться
+  description: Вылечить себя.
+  noSpawn: true
+  components:
+  - type: InstantAction
+    icon: { sprite: Imperial/SCP/047spells.rsi, state: heal }
+    event: !type:ElectroMouseHealEvent
+    useDelay: 15
 
+- type: entity
+  id: ActionElectroMouseShield
+  name: Использовать щит.
+  description: Всего на пару секунд вы получаете защиту от всех пуль, выпущенных в вас
+  noSpawn: true
+  components:
+  - type: InstantAction
+    icon: { sprite: Objects/Magic/magicactions.rsi, state: shield }
+    event: !type:ElectroMouseShieldEvent
+    useDelay: 60
+
+- type: entity
+  id: ActionElectroMouseSpeed
+  name: Сверхшокирующая скорость
+  description: Находясь рядом с проводами вы обретаете скорость 150%
+  noSpawn: true
+  components:
+  - type: InstantAction
+    icon: { sprite: Objects/Magic/magicactions.rsi, state: gib }
+    event: !type:ElectroMouseSpeedEvent
+    useDelay: 20
+
+- type: entity
+  id: ActionElectroMouseDouble
+  name: Резервное шокирование
+  description: Позволяет создать вторую шокомышь (1 раз)
+  noSpawn: true
+  components:
+  - type: InstantAction
+    icon: { sprite: Objects/Magic/magicactions.rsi, state: blink }
+    event: !type:ElectroMouseDoubleEvent
+    charges: 1
+
+- type: entity
+  id: ActionElectroMouseUpgrade
+  name: Улучшения
+  description: Все ваши способности становятся лучше
+  noSpawn: true
+  components:
+  - type: InstantAction
+    icon: { sprite: Objects/Magic/magicactions.rsi, state: magicmissile }
+    event: !type:ElectroMouseUpgradeEvent
+    charges: 1
