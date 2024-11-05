@@ -230,6 +230,9 @@
             "name": "pda-syndi-agent"
         },
         {
+            "name": "pda-adjutant"
+        },
+        {
             "name": "pda-pirate"
         }
     ]

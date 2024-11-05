@@ -372,6 +372,7 @@
     - ProtolatheMachineCircuitboard
     - AutolatheMachineCircuitboard
     - CircuitImprinterMachineCircuitboard
+    - PrinterDocMachineCircuitboard
     - OreProcessorMachineCircuitboard
     - MaterialReclaimerMachineCircuitboard
     - ElectrolysisUnitMachineCircuitboard

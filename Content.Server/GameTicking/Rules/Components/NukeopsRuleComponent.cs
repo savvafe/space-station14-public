@@ -92,6 +92,12 @@ public sealed partial class NukeopsRuleComponent : Component
     [DataField]
     public TimeSpan WarNukieArriveDelay = TimeSpan.FromMinutes(15);
 
+    // Imperial Space Start
+    // Данное значение добавляет задержку к вызову эвакуационного шаттла после объявления войны
+    [DataField]
+    public TimeSpan WarEvacBonusBlock = TimeSpan.FromMinutes(10);
+    // Imperial Space End
+
     /// <summary>
     ///     Minimal operatives count for war declaration
     /// </summary>

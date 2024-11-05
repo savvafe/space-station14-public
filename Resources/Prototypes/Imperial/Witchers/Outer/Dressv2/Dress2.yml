@@ -2,7 +2,7 @@
   parent: ClothingOuterStorageBase
   id: WitcherDressvTwo
   name: The Red Witch's Dress
-  suffix: Ведьмы
+  suffix: Vl, Ведьмы
   description: Beautiful long dress of the red witch.
   components:
   - type: Item

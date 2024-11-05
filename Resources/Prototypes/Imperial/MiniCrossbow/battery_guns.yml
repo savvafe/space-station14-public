@@ -24,10 +24,11 @@
     slots:
     - Belt
   - type: Gun
+    fireRate: 0.5
     soundGunshot:
       path: /Audio/Imperial/laser.ogg
   - type: RechargeBasicEntityAmmo
-    rechargeCooldown: 5
+    rechargeCooldown: 3
     rechargeSound:
       path: /Audio/Weapons/drawbow2.ogg
   - type: UseDelay

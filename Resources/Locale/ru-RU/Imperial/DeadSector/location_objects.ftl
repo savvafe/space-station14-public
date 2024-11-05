@@ -1,0 +1,15 @@
+ent-TireWithATire = шина с покрышкой
+    .desc = Из этого выйдет отличное обрамление сада у подъезда.
+    .suffix = { "DeadSector" }
+ent-HomemadeWindTurbine = самодельный ветрогенератор
+    .desc = Прямо как на диком западе... Наверное.
+    .suffix = { "DeadSector" }
+ent-RedGasolineGenerator = бензиновый генератор
+    .desc = Бензиновый генератор. Интересно, на чём он работает?
+    .suffix = { "DeadSector" }
+ent-WallmountTelevisionBroken = плазменный телевизор
+    .desc = По экрану проходит большая трещина. Вряд ли он когда-нибудь вновь заработает.
+    .suffix = { "DeadSector" }
+ent-ELTTelevision = ЕЛТ телевизор
+    .desc = Старинный телевизор, на котором уже давно не ловит сигнал.
+    .suffix = { "DeadSector" }
