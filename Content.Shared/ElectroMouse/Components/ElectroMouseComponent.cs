@@ -11,6 +11,9 @@ namespace Content.Shared.ElectroMouse.Components;
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class ElectroMouseComponent : Component
 {
+    [DataField, ViewVariables(VVAccess.ReadWrite)]
+    public string ElevationSound { get; set; } = "/Audio/Announcements/bloblarm.ogg";
+    public AudioParams Params = AudioParams.Default.WithVolume(5f);
     public bool IsChanged = false;
     [DataField, ViewVariables(VVAccess.ReadWrite), AutoNetworkedField]
     public int Range = 5;

@@ -1,18 +1,18 @@
 - type: entity
-  name: мышь
   parent: SimpleMobBase
-  id: ElectroMouse
+  name: мышь
+  id: MobElectroMouse
   suffix: ElectroMouse
   description: Squeak!
   components:
   - type: Body
     prototype: Mouse
   - type: GhostRole
-    makeSentient: true
-    allowSpeech: true
-    allowMovement: true
     name: ghost-role-information-elmouse-name
     description: ghost-role-information-elmouse-description
+    rules: ghost-role-information-elmouse-rules
+    raffle:
+      settings: default
   - type: GhostTakeoverAvailable
   - type: Speech
     speechSounds: Squeak
@@ -67,7 +67,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      50: Dead
+      30: Dead
   - type: MovementSpeedModifier
     baseWalkSpeed : 5
     baseSprintSpeed : 5
@@ -92,8 +92,6 @@
     spawned:
     - id: FoodMeatRat
       amount: 1
-  - type: ReplacementAccent
-    accent: mouse
   - type: Tag
     tags:
     - Trash
@@ -109,6 +107,12 @@
   - type: CombatMode
     combatToggleAction: ActionCombatModeToggleOff
   - type: Bloodstream
+    bloodlossDamage:
+      types:
+        Bloodloss: 0.5
+    bloodlossHealDamage:
+      types:
+        Bloodloss: -1
     bloodMaxVolume: 50
   - type: CanEscapeInventory
   - type: MobPrice
@@ -132,3 +136,5 @@
     currencyWhitelist:
     - StolenEnergy
   - type: Insulated
+  - type: Hunger
+    starvingSlowdownModifier: 0

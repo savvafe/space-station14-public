@@ -5,7 +5,7 @@
   noSpawn: true
   components:
   - type: InstantAction
-    icon: Interface/Actions/shop.png
+    icon: { sprite: Imperial/electromouse.rsi, state: sm_shockradius}
     event: !type:ElectroMouseShopActionEvent
 
 - type: entity
@@ -15,7 +15,7 @@
   noSpawn: true
   components:
   - type: InstantAction
-    icon: Interface/Actions/overloadlight.png
+    icon: { sprite: Imperial/electromouse.rsi, state: sm_shop}
     event: !type:ElectroMouseOverloadLightsActionEvent
     useDelay: 30
 
@@ -26,7 +26,7 @@
   noSpawn: true
   components:
   - type: InstantAction
-    icon: { sprite: Objects/Magic/magicactions.rsi, state: blink }
+    icon: { sprite: Imperial/electromouse.rsi, state: sm_dash}
     event: !type:ElectroMouseDashEvent
     useDelay: 15
 
@@ -38,7 +38,7 @@
   components:
   - type: InstantAction
     event: !type:ElectroMouseEmpEvent
-    icon: { sprite: Objects/Weapons/Grenades/empgrenade.rsi, state: icon}
+    icon: { sprite: Imperial/electromouse.rsi, state: sm_EMP}
     useDelay: 30
 
 - type: entity
@@ -48,7 +48,7 @@
   noSpawn: true
   components:
   - type: InstantAction
-    icon: { sprite: Imperial/SCP/047spells.rsi, state: heal }
+    icon: { sprite: Imperial/electromouse.rsi, state: sm_heal}
     event: !type:ElectroMouseHealEvent
     useDelay: 15
 
@@ -59,7 +59,7 @@
   noSpawn: true
   components:
   - type: InstantAction
-    icon: { sprite: Objects/Magic/magicactions.rsi, state: shield }
+    icon: { sprite: Imperial/electromouse.rsi, state: sm_shield}
     event: !type:ElectroMouseShieldEvent
     useDelay: 60
 
@@ -70,7 +70,7 @@
   noSpawn: true
   components:
   - type: InstantAction
-    icon: { sprite: Objects/Magic/magicactions.rsi, state: gib }
+    icon: { sprite: Imperial/electromouse.rsi, state: sm_superspeed}
     event: !type:ElectroMouseSpeedEvent
     useDelay: 20
 
@@ -81,7 +81,7 @@
   noSpawn: true
   components:
   - type: InstantAction
-    icon: { sprite: Objects/Magic/magicactions.rsi, state: blink }
+    icon: { sprite: Imperial/electromouse.rsi, state: sm_copying}
     event: !type:ElectroMouseDoubleEvent
     charges: 1
 
@@ -92,6 +92,28 @@
   noSpawn: true
   components:
   - type: InstantAction
-    icon: { sprite: Objects/Magic/magicactions.rsi, state: magicmissile }
+    icon: { sprite: Imperial/electromouse.rsi, state: sm_upgrade}
     event: !type:ElectroMouseUpgradeEvent
+    charges: 1
+
+- type: entity
+  id: ActionElectroMouseLightning
+  name: Молния
+  description: Создает молнию, которая парализует жертву почти на 10 секунд
+  noSpawn: true
+  components:
+  - type: EntityTargetAction
+    icon: { sprite: Imperial/electromouse.rsi, state: sm_shock1}
+    event: !type:ElectroMouseLightningEvent
+    useDelay: 60
+
+- type: entity
+  id: ActionElectroMouseElevation
+  name: Возвышение
+  description: Вы достигаете окончательного прогресса своего существования. Ваши способности становятся еще лучше. Вы получаете бесконечную энергию. Постарайтесь выжить, и привести электропитание станции в упадок
+  noSpawn: true
+  components:
+  - type: InstantAction
+    icon: { sprite: Imperial/electromouse.rsi, state: sm_elevation}
+    event: !type:ElectroMouseElevationEvent
     charges: 1

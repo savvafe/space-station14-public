@@ -1,7 +1,7 @@
 - type: listing
   id: ElectromOverload
   name: Перегрузка света
-  description: Перегружает все ближайшие источники света, вызывая пульсацию и опасные молнии. Использование этого оставляет вас уязвимыми для атак на длительный период времени.
+  description: Перегружает все ближайшие источники света, вызывая пульсацию и опасные молнии.
   productAction: ActionElectroMouseOverloadLights
   categories:
     - ElectromouseAbilities
@@ -77,6 +77,19 @@
     stock: 1
 
 - type: listing
+  id: ElectromLightning
+  name: Молния
+  description: Создает молнию, которая парализует жертву почти на 10 секунд.
+  productAction: ActionElectroMouseLightning
+  categories:
+  - ElectromouseAbilities
+  cost:
+    StolenEnergy: 200
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
   id: ElectromDouble
   name: Резервное шокирование
   description: Позволяет создать вторую шокомышь (1 раз)
@@ -84,7 +97,7 @@
   categories:
   - ElectromouseAbilities
   cost:
-    StolenEnergy: 200
+    StolenEnergy: 300
   conditions:
   - !type:ListingLimitedStockCondition
     stock: 1
@@ -97,7 +110,20 @@
   categories:
   - ElectromouseAbilities
   cost:
-    StolenEnergy: 300
+    StolenEnergy: 500
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
+  id: ElectromElevation
+  name: Возвышение
+  description: Вы достигаете окончательного прогресса своего существования. Ваши силы становятся лучше. Вы получаете бесконечную энергию. Постарайтесь выжить, и привести энергию станции в упадок.
+  productAction: ActionElectroMouseElevation
+  categories:
+  - ElectromouseAbilities
+  cost:
+    StolenEnergy: 1500
   conditions:
   - !type:ListingLimitedStockCondition
     stock: 1
