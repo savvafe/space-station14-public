@@ -1,8 +1,8 @@
 using Robust.Client.GameObjects;
-using Content.Shared.ElectroMouseShield.Components;
+using Content.Shared.Imperial.ElectroMouseShield.Components;
 using Robust.Shared.Utility;
 
-namespace Content.Client.ElectroMouseShield.Systems;
+namespace Content.Client.Imperial.ElectroMouseShield.Systems;
 
 public sealed partial class ElectroMouseShieldSystem : EntitySystem
 {

@@ -1,6 +1,6 @@
 using Content.Shared.Actions;
 
-namespace Content.Shared.ElectroMouse.Events;
+namespace Content.Shared.Imperial.ElectroMouse.Events;
 
 public sealed partial class ElectroMouseShopActionEvent : InstantActionEvent { }
 

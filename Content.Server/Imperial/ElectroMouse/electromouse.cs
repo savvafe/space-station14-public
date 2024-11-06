@@ -2,11 +2,11 @@ using Content.Server.Actions;
 using Content.Server.Store.Components;
 using Content.Server.Store.Systems;
 using Robust.Shared.Prototypes;
-using Content.Shared.ElectroMouse.Events;
+using Content.Shared.Imperial.ElectroMouse.Events;
 using Content.Shared.Alert;
 using Content.Shared.Revenant;
 using Content.Shared.FixedPoint;
-using Content.Shared.ElectroMouse.Components;
+using Content.Shared.Imperial.ElectroMouse.Components;
 using Content.Shared.Interaction;
 using Content.Server.Power.Components;
 using Content.Shared.DoAfter;
@@ -25,7 +25,7 @@ using Content.Shared.Damage;
 using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Reflect;
 using Robust.Shared.Timing;
-using Content.Shared.ElectroMouseShield.Components;
+using Content.Shared.Imperial.ElectroMouseShield.Components;
 using Content.Server.Emp;
 using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Systems;
@@ -40,7 +40,7 @@ using Content.Shared.Body.Components;
 using CollisionGroup = Content.Shared.Physics.CollisionGroup;
 using Content.Server.Chat.Systems;
 
-namespace Content.Server.ElectroMouse.EntitySystems;
+namespace Content.Server.Imperial.ElectroMouse.EntitySystems;
 
 
 public sealed partial class ElectroMouseSystem : EntitySystem

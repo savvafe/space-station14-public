@@ -3,9 +3,9 @@ using Content.Shared.SubFloor;
 using Content.Client.SubFloor;
 using Robust.Client.Animations;
 using Robust.Client.GameObjects;
-using Content.Shared.ElectroMouse.Components;
+using Content.Shared.Imperial.ElectroMouse.Components;
 
-namespace Content.Client.ElectroMouse;
+namespace Content.Client.Imperial.ElectroMouse;
 
 public sealed class ElectroMouseSystem : EntitySystem
 {
