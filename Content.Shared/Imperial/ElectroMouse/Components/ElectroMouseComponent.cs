@@ -15,25 +15,35 @@ public sealed partial class ElectroMouseComponent : Component
     public string ElevationSound { get; set; } = "/Audio/Announcements/bloblarm.ogg";
     public AudioParams Params = AudioParams.Default.WithVolume(5f);
     public bool IsChanged = false;
+
     [DataField, ViewVariables(VVAccess.ReadWrite), AutoNetworkedField]
     public int Range = 5;
+
     [ViewVariables(VVAccess.ReadWrite), AutoNetworkedField]
     public bool IsSpeed = false;
+
     [ViewVariables(VVAccess.ReadWrite)]
     public List<EntityUid> Harvested = new List<EntityUid>();
 
     [ViewVariables(VVAccess.ReadWrite)]
+
     public FixedPoint2 Energy = 1;
+
     [ViewVariables(VVAccess.ReadWrite)]
     public bool CanBattery = false;
+
     [ViewVariables(VVAccess.ReadWrite)]
     public bool CanAPC = false;
+
     [ViewVariables(VVAccess.ReadWrite)]
     public bool IsActiveShield = false;
+
     [ViewVariables(VVAccess.ReadOnly)]
     public TimeSpan TimeUtil;
+
     [ViewVariables(VVAccess.ReadOnly)]
     public TimeSpan TimeUtilSpeed;
+
     [ViewVariables(VVAccess.ReadWrite), DataField]
     public float Duration = 2.0f;
 
@@ -55,25 +65,33 @@ public sealed partial class ElectroMouseComponent : Component
         Params = AudioParams.Default.WithVolume(5f)
     };
     [DataField, ViewVariables(VVAccess.ReadWrite)]
+
     public int DashEnergy = 2;
     [ViewVariables(VVAccess.ReadWrite), DataField("overloadCost")]
+
     public FixedPoint2 OverloadCost = -40;
 
     [DataField("overloadDebuffs")]
+
     public Vector2 OverloadDebuffs = new(3, 8);
 
     [ViewVariables(VVAccess.ReadWrite), DataField("overloadRadius")]
+
     public float OverloadRadius = 5f;
 
     [ViewVariables(VVAccess.ReadWrite), DataField("overloadZapRadius")]
+
     public float OverloadZapRadius = 2f;
+
     [DataField] public EntityUid? Action;
     [DataField, ViewVariables(VVAccess.ReadWrite)]
     public int EmpRadius = 5;
     [DataField, ViewVariables(VVAccess.ReadWrite)]
     public int HealingStrength = 10;
+
     [DataField("sparkSound")]
     public SoundSpecifier SparkSound = new SoundCollectionSpecifier("sparks");
+
     [DataField, ViewVariables(VVAccess.ReadWrite)]
     public bool CanSmesEtc = false;
 }

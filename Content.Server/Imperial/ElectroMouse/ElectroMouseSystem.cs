@@ -42,7 +42,6 @@ using Content.Server.Chat.Systems;
 
 namespace Content.Server.Imperial.ElectroMouse.EntitySystems;
 
-
 public sealed partial class ElectroMouseSystem : EntitySystem
 {
     [Dependency] private readonly ActionsSystem _action = default!;
@@ -90,28 +89,38 @@ public sealed partial class ElectroMouseSystem : EntitySystem
         SubscribeLocalEvent<ElectroMouseComponent, ElectroMouseLightningEvent>(OnLightning);
         SubscribeLocalEvent<ElectroMouseComponent, ElectroMouseElevationEvent>(OnElevation);
     }
+
     private void OnElevation(EntityUid uid, ElectroMouseComponent component, ElectroMouseElevationEvent args)
     {
         if (args.Handled || !TryComp<FixturesComponent>(uid, out var fixturesComponent) || !HasComp<BodyComponent>(uid))
             return;
         args.Handled = true;
+
         var fixture = fixturesComponent.Fixtures.First();
         _physics.SetCollisionMask(uid, fixture.Key, fixture.Value, (int) CollisionGroup.GhostImpassable, fixturesComponent);
+
         _audio.PlayGlobal(component.ElevationSound, Filter.Broadcast(), true, component.Params);
+
         _chat.DispatchGlobalAnnouncement(Loc.GetString("electromouse-elevation"), colorOverride: Color.Gold);
+
         AddEnergy(uid, component, 9999);
+
         component.DashEnergy = component.DashEnergy + 2;
         component.EmpRadius = component.EmpRadius + 7;
         component.Duration = component.Duration + 2;
         component.HealingStrength = component.HealingStrength + 5;
+
         _action.RemoveAction(uid, component.Action);
     }
+
     public override void Update(float frameTime)
     {
         if (!_gameTiming.IsFirstTimePredicted)
             return;
+
         var curTime = _gameTiming.CurTime;
         var query = EntityQueryEnumerator<ElectroMouseComponent>();
+
         while (query.MoveNext(out var uid, out var component))
         {
             if (TryComp<MovementSpeedModifierComponent>(uid, out var movementSpeedModifier))
@@ -142,12 +151,14 @@ public sealed partial class ElectroMouseSystem : EntitySystem
                     {
                         var newspeed = (float) movementSpeedModifier.BaseWalkSpeed * 2;
                         _movementSpeedModifierSystem.ChangeBaseSpeed(uid, newspeed, newspeed, 20, movementSpeedModifier);
+
                         component.IsChanged = true;
                     }
                     else if (!HasComp<ApcPowerProviderComponent>(ent) && component.IsChanged)
                     {
                         var newspeed = (float) movementSpeedModifier.BaseWalkSpeed / 2;
                         _movementSpeedModifierSystem.ChangeBaseSpeed(uid, newspeed, newspeed, 20, movementSpeedModifier);
+
                         component.IsChanged = false;
                         component.IsSpeed = false;
                     }
@@ -174,16 +185,20 @@ public sealed partial class ElectroMouseSystem : EntitySystem
             }
         }
     }
+
     private void OnUpgrade(EntityUid uid, ElectroMouseComponent component, ElectroMouseUpgradeEvent args)
     {
         if (args.Handled)
             return;
+
         args.Handled = true;
+
         component.DashEnergy = 4;
         component.EmpRadius = 7;
         component.Duration = 4;
         component.HealingStrength = 15;
     }
+
     private void OnDouble(EntityUid uid, ElectroMouseComponent component, ElectroMouseDoubleEvent args)
     {
         if (component.Energy <= 100 || args.Handled)
@@ -193,21 +208,27 @@ public sealed partial class ElectroMouseSystem : EntitySystem
         }
         var query = EntityQueryEnumerator<ElectroMouseComponent>();
         var quanity = 0;
+
         while (query.MoveNext(out var _, out _))
             quanity++;
+
         if (quanity > 1)
         {
             _popup.PopupEntity("Слишком много шокомышей на станции", uid, uid);
             return;
         }
+
         args.Handled = true;
+
         AddEnergy(uid, component, -100);
         Spawn("SpawnPointGhostElectroMouse", Transform(uid).Coordinates);
     }
+
     private void OnLightning(EntityUid uid, ElectroMouseComponent component, ElectroMouseLightningEvent args)
     {
         if (args.Handled || !_gameTiming.IsFirstTimePredicted)
             return;
+
         if (component.Energy <= 10)
         {
             _popup.PopupEntity("Недостаточно энергии", uid, uid);
@@ -223,44 +244,59 @@ public sealed partial class ElectroMouseSystem : EntitySystem
             return;
 
         args.Handled = true;
+
         AddEnergy(uid, component, -10);
+
         _stun.TryStun(uid, TimeSpan.FromSeconds(2f), false);
         _beam.TryCreateBeam(uid, target, "LightningRevenant");
         _stun.TryParalyze(target, TimeSpan.FromSeconds(7f), true);
     }
+
     private void OnSpeed(EntityUid uid, ElectroMouseComponent component, ElectroMouseSpeedEvent args)
     {
         if (!_gameTiming.IsFirstTimePredicted)
             return;
+
         if (args.Handled)
             return;
+
         args.Handled = true;
+
         component.IsSpeed = !component.IsSpeed;
         Dirty(uid, component);
+
         if (!component.CanSmesEtc)
             component.CanSmesEtc = true;
     }
+
     private void OnEmp(EntityUid uid, ElectroMouseComponent component, ElectroMouseEmpEvent args)
     {
         if (args.Handled)
             return;
+
         args.Handled = true;
+
         var coords = _transform.GetMapCoordinates(uid);
         if (component.Energy <= 20)
         {
             _popup.PopupEntity("Недостаточно энергии", uid, uid);
             return;
         }
+
         _empSystem.EmpPulse(coords, component.EmpRadius, 10000, 120);
+
         AddEnergy(uid, component, -20);
+
         if (TryComp<PointLightComponent>(uid, out var pointLightComponent))
         {
             var newenerg = pointLightComponent.Energy + 2.5f;
             var newrad = pointLightComponent.Radius + 0.2f;
+
             _pointLight.SetEnergy(uid, newenerg, pointLightComponent);
             _pointLight.SetRadius(uid, newrad, pointLightComponent);
         }
     }
+
     private void OnShield(EntityUid uid, ElectroMouseComponent component, ElectroMouseShieldEvent args)
     {
         if (!_gameTiming.IsFirstTimePredicted)
@@ -270,13 +306,16 @@ public sealed partial class ElectroMouseSystem : EntitySystem
             return;
 
         args.Handled = true;
+
         if (!component.CanAPC)
             component.CanAPC = true;
+
         if (component.Energy <= 20)
         {
             _popup.PopupEntity("Недостаточно энергии", uid, uid);
             return;
         }
+
         if (!HasComp<ReflectComponent>(uid))
         {
             AddComp<ReflectComponent>(uid);
@@ -296,10 +335,12 @@ public sealed partial class ElectroMouseSystem : EntitySystem
                 component.CanAPC = true;
         }
     }
+
     private void OnShop(EntityUid uid, ElectroMouseComponent component, ElectroMouseShopActionEvent args)
     {
         if (!TryComp<StoreComponent>(uid, out var store))
             return;
+
         _store.ToggleUi(uid, uid, store);
     }
 
@@ -307,38 +348,47 @@ public sealed partial class ElectroMouseSystem : EntitySystem
     {
         _action.AddAction(uid, ref component.Action, ShopId);
     }
+
     private void OnInteract(EntityUid uid, ElectroMouseComponent component, InteractNoHandEvent args)
     {
         if (args.Target == null)
             return;
+
         var target = args.Target.Value;
+
         if (HasComp<PoweredLightComponent>(target))
         {
             args.Handled = _ghost.DoGhostBooEvent(target);
             return;
         }
+
         if (component.Harvested.Contains(target))
         {
             _popup.PopupEntity(Loc.GetString("electromouse-harvested"), uid, uid);
             return;
         }
+
         if (HasComp<DoorComponent>(target))
             return;
+
         if (HasComp<ApcPowerReceiverComponent>(target) || HasComp<HitscanBatteryAmmoProviderComponent>(target) || HasComp<ProjectileBatteryAmmoProviderComponent>(target) || HasComp<PowerNetworkBatteryComponent>(target))
         {
             args.Handled = true;
+
             BeginHarvestDoAfter(uid, target, component);
         }
     }
+
     private void DashAbility(EntityUid uid, ElectroMouseComponent comp, ElectroMouseDashEvent args)
     {
         if (!HasComp<ElectroMouseComponent>(uid))
-        {
             return;
-        }
+
         if (args.Handled)
             return;
+
         args.Handled = true;
+
         var entityManager = IoCManager.Resolve<IEntityManager>();
 
         var xformSystem = entityManager.System<TransformSystem>();
@@ -359,6 +409,7 @@ public sealed partial class ElectroMouseSystem : EntitySystem
             );
         _audio.PlayPvs(comp.DashSound, uid);
     }
+
     private static Vector2 GetPositionFromRotation(Box2 reactionBounds, float energy, EntityUid uid)
     {
         var entityManager = IoCManager.Resolve<IEntityManager>();
@@ -371,6 +422,7 @@ public sealed partial class ElectroMouseSystem : EntitySystem
 
         return reactionBounds.Center - resultVector;
     }
+
     private bool ChangeEnergyAmount(EntityUid uid, FixedPoint2 amount, ElectroMouseComponent? component = null, bool allowDeath = true, bool regenCap = false)
     {
         if (!Resolve(uid, ref component))
@@ -389,6 +441,7 @@ public sealed partial class ElectroMouseSystem : EntitySystem
 
         return true;
     }
+
     private void AddEnergy(EntityUid uid, ElectroMouseComponent component, FixedPoint2 energ)
     {
         var store = EnsureComp<StoreComponent>(uid);
@@ -406,6 +459,7 @@ public sealed partial class ElectroMouseSystem : EntitySystem
     //         return;
     //     _solutionContainer.TryAddReagent(injsol.Value, reagent, value);
     // }
+
     private void BeginHarvestDoAfter(EntityUid uid, EntityUid target, ElectroMouseComponent comp)
     {
         if (TryComp<HitscanBatteryAmmoProviderComponent>(target, out var hitprov) && hitprov.Shots == 0)
@@ -416,6 +470,7 @@ public sealed partial class ElectroMouseSystem : EntitySystem
             return;
         if (HasComp<ProjectileBatteryAmmoProviderComponent>(target) && !comp.CanBattery)
             return;
+
         if (HasComp<PowerNetworkBatteryComponent>(target))
         {
             DoAfterApcEtc(uid, comp, target);
@@ -430,12 +485,15 @@ public sealed partial class ElectroMouseSystem : EntitySystem
             BreakOnDamage = true,
             RequireCanInteract = false, // stuns itself
         };
+
         _stun.TryStun(uid, TimeSpan.FromSeconds(5f), false);
         if (!_doAfter.TryStartDoAfter(doAfter))
             return;
+
         _popup.PopupEntity(Loc.GetString("electromouse-startharvest", ("target", target)),
             target, PopupType.Large);
     }
+
     private void DoAfterApcEtc(EntityUid uid, ElectroMouseComponent component, EntityUid target)
     {
         var doAfterApc = new DoAfterArgs(EntityManager, uid, TimeSpan.FromSeconds(1f), new DrainDoAfterEvent(), target: target, eventTarget: uid)
@@ -444,22 +502,24 @@ public sealed partial class ElectroMouseSystem : EntitySystem
             BreakOnMove = true,
             CancelDuplicate = false,
         };
+
         if (HasComp<PowerNetworkBatteryComponent>(target) && component.CanSmesEtc)
         {
             _doAfter.TryStartDoAfter(doAfterApc);
             return;
         }
         if (HasComp<ApcComponent>(target) && component.CanAPC)
-        {
             _doAfter.TryStartDoAfter(doAfterApc);
-        }
     }
+
     private void OnDoAfterApc(EntityUid uid, ElectroMouseComponent component, DrainDoAfterEvent args)
     {
         if (args.Handled || args.Target == null)
             return;
+
         args.Repeat = TryDrainPower(uid, component, args.Target.Value);
     }
+
     private bool TryDrainPower(EntityUid uid, ElectroMouseComponent component, EntityUid target)
     {
         if (!TryComp<BatteryComponent>(target, out var targetBattery) || !TryComp<PowerNetworkBatteryComponent>(target, out var pnb))
@@ -470,8 +530,10 @@ public sealed partial class ElectroMouseSystem : EntitySystem
             _popup.PopupEntity(Loc.GetString("battery-drainer-empty", ("battery", target)), uid, uid, PopupType.Medium);
             return false;
         }
+
         var available = targetBattery.CurrentCharge;
         int required;
+
         if (HasComp<ApcComponent>(target))
         {
             required = 100;
@@ -480,8 +542,11 @@ public sealed partial class ElectroMouseSystem : EntitySystem
             required = 8500;
         else
             required = 5000;
+
         _battery.UseCharge(target, required * 200, targetBattery);
+
         Dirty(target, targetBattery);
+
         var maxDrained = pnb.MaxSupply;
         var input = Math.Min(Math.Min(available, required / 0.001f), maxDrained);
         if (HasComp<ApcComponent>(target))
@@ -489,20 +554,27 @@ public sealed partial class ElectroMouseSystem : EntitySystem
         if (HasComp<SmesComponent>(target))
             input = input * 2;
         var output = input * 0.0001f;
+
         AddEnergy(uid, component, output);
+
         Spawn("EffectSparks", Transform(target).Coordinates);
+
         _audio.PlayPvs(component.SparkSound, target);
 
         // repeat the doafter until we get lower than 20%
         return true;
     }
+
     private void OnHarvest(EntityUid uid, ElectroMouseComponent component, HarvestEvent args)
     {
         if (args.Handled || args.Target == null)
             return;
+
         var target = args.Target.Value;
+
         _popup.PopupEntity(Loc.GetString("electromouse-endharvest", ("target", target)),
             target, PopupType.Large);
+
         if (HasComp<ApcPowerReceiverComponent>(target))
         {
             component.Harvested.Add(target);
@@ -522,15 +594,18 @@ public sealed partial class ElectroMouseSystem : EntitySystem
         }
         args.Handled = true;
     }
+
     private void OnOverloadLightsAction(EntityUid uid, ElectroMouseComponent component, ElectroMouseOverloadLightsActionEvent args)
     {
         if (args.Handled)
             return;
+
         if (component.Energy <= 25)
         {
             _popup.PopupEntity("Недостаточно энергии", uid, uid);
             return;
         }
+
         if (!component.CanBattery)
             component.CanBattery = true; //at first overload make can eat from laser guns
 
@@ -562,6 +637,7 @@ public sealed partial class ElectroMouseSystem : EntitySystem
             comp.Target = ent; //who they gon fire at?
         }
     }
+
     private void OnHeal(EntityUid uid, ElectroMouseComponent component, ElectroMouseHealEvent args)
     {
         if (args.Handled)
