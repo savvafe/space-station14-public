@@ -104,8 +104,6 @@
       Female: Mouse
       Unsexed: Mouse
     wilhelmProbability: 0.001
-  - type: CombatMode
-    combatToggleAction: ActionCombatModeToggleOff
   - type: Bloodstream
     bloodlossDamage:
       types:
