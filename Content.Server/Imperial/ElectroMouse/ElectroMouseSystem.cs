@@ -486,9 +486,9 @@ public sealed partial class ElectroMouseSystem : EntitySystem
             RequireCanInteract = false, // stuns itself
         };
 
-        _stun.TryStun(uid, TimeSpan.FromSeconds(5f), false);
         if (!_doAfter.TryStartDoAfter(doAfter))
             return;
+        _stun.TryStun(uid, TimeSpan.FromSeconds(5f), false);
 
         _popup.PopupEntity(Loc.GetString("electromouse-startharvest", ("target", target)),
             target, PopupType.Large);
