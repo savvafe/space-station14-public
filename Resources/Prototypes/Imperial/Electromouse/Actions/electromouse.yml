@@ -18,6 +18,7 @@
     icon: { sprite: Imperial/electromouse.rsi, state: sm_shop}
     event: !type:ElectroMouseOverloadLightsActionEvent
     useDelay: 30
+    itemIconStyle: BigAction
 
 - type: entity
   id: ActionElectroDash
@@ -29,6 +30,7 @@
     icon: { sprite: Imperial/electromouse.rsi, state: sm_dash}
     event: !type:ElectroMouseDashEvent
     useDelay: 15
+    itemIconStyle: BigAction
 
 - type: entity
   id: ActionElectroMouseEmp
@@ -40,6 +42,7 @@
     event: !type:ElectroMouseEmpEvent
     icon: { sprite: Imperial/electromouse.rsi, state: sm_EMP}
     useDelay: 30
+    itemIconStyle: BigAction
 
 - type: entity
   id: ActionElectroMouseHeal
@@ -51,6 +54,7 @@
     icon: { sprite: Imperial/electromouse.rsi, state: sm_heal}
     event: !type:ElectroMouseHealEvent
     useDelay: 15
+    itemIconStyle: BigAction
 
 - type: entity
   id: ActionElectroMouseShield
@@ -62,6 +66,7 @@
     icon: { sprite: Imperial/electromouse.rsi, state: sm_shield}
     event: !type:ElectroMouseShieldEvent
     useDelay: 60
+    itemIconStyle: BigAction
 
 - type: entity
   id: ActionElectroMouseSpeed
@@ -73,6 +78,7 @@
     icon: { sprite: Imperial/electromouse.rsi, state: sm_superspeed}
     event: !type:ElectroMouseSpeedEvent
     useDelay: 20
+    itemIconStyle: BigAction
 
 - type: entity
   id: ActionElectroMouseDouble
@@ -84,6 +90,7 @@
     icon: { sprite: Imperial/electromouse.rsi, state: sm_copying}
     event: !type:ElectroMouseDoubleEvent
     charges: 1
+    itemIconStyle: BigAction
 
 - type: entity
   id: ActionElectroMouseUpgrade
@@ -95,6 +102,7 @@
     icon: { sprite: Imperial/electromouse.rsi, state: sm_upgrade}
     event: !type:ElectroMouseUpgradeEvent
     charges: 1
+    itemIconStyle: BigAction
 
 - type: entity
   id: ActionElectroMouseLightning
@@ -106,6 +114,7 @@
     icon: { sprite: Imperial/electromouse.rsi, state: sm_shock1}
     event: !type:ElectroMouseLightningEvent
     useDelay: 60
+    itemIconStyle: BigAction
 
 - type: entity
   id: ActionElectroMouseElevation
@@ -117,3 +126,4 @@
     icon: { sprite: Imperial/electromouse.rsi, state: sm_elevation}
     event: !type:ElectroMouseElevationEvent
     charges: 1
+    itemIconStyle: BigAction
