@@ -28,7 +28,7 @@
     soundGunshot:
       path: /Audio/Imperial/laser.ogg
   - type: RechargeBasicEntityAmmo
-    rechargeCooldown: 3
+    rechargeCooldown: 4
     rechargeSound:
       path: /Audio/Weapons/drawbow2.ogg
   - type: UseDelay
