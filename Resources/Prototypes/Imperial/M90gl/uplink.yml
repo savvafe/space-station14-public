@@ -1,0 +1,21 @@
+- type: listing
+  id: UplinkM90GLBundle
+  name: uplink-m90gl-bundle-name
+  description: uplink-m90gl-bundle-desc
+  icon: { sprite: /Textures/Objects/Weapons/Guns/Rifles/carbine.rsi, state: icon }
+  productEntity: ClothingBackpackDuffelSyndicateM90glImperial
+  cost:
+    Telecrystal: 25
+  categories:
+  - UplinkWeaponry
+
+- type: listing
+  id: UplinkMagazineBoxM90gl
+  name: uplink-m90gl-magazine-boxes-name
+  description: uplink-m90gl-magazine-boxes-desc
+  icon: { sprite: /Textures/Imperial/M90gl/boxes.rsi, state: icon }
+  productEntity: MagazineBoxM90gl
+  cost:
+    Telecrystal: 3
+  categories:
+  - UplinkAmmo
