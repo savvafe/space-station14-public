@@ -16,6 +16,9 @@
     {
       "name": "047_dead",
       "directions": 1
+    },
+    {
+      "name": "icon"
     }
   ]
 }
