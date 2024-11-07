@@ -3,7 +3,7 @@
   parent: BaseMachinePowered
   name: ninja sleeper
   suffix: SpiderClan
-  description: A special device in which the ninjas of the Spider Clan await their time.
+  description: A special device that lets you find out their dirtiest secrets...
   components:
   - type: MedicalScanner
   - type: DeviceNetwork
