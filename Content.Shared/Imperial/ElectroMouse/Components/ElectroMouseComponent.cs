@@ -101,4 +101,15 @@ public sealed partial class ElectroMouseComponent : Component
 
     [DataField, ViewVariables(VVAccess.ReadWrite)]
     public bool CanSmesEtc = false;
+    #region FixEnergyMinus
+    public bool BuyedOverload = false;
+    public bool BuyedDash = false;
+    public bool BuyedEMP = false;
+    public bool BuyedHeal = false;
+    public bool BuyedShield = false;
+    public bool BuyedSpeed = false;
+    public bool BuyedLightning = false;
+    public bool BuyedDouble = false;
+    public bool BuyedUpgrade = false;
+    #endregion
 }
