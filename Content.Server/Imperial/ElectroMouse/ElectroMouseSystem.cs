@@ -190,10 +190,10 @@ public sealed partial class ElectroMouseSystem : EntitySystem
 
         args.Handled = true;
 
-        component.DashEnergy = 4;
-        component.EmpRadius = 7;
-        component.Duration = 4;
-        component.HealingStrength = 15;
+        component.DashEnergy += 2;
+        component.EmpRadius += 2;
+        component.Duration += 2;
+        component.HealingStrength += 5;
     }
 
     private void OnDouble(EntityUid uid, ElectroMouseComponent component, ElectroMouseDoubleEvent args)
