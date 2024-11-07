@@ -66,9 +66,6 @@ public sealed partial class ElectroMouseSystem : EntitySystem
     [Dependency] private readonly BeamSystem _beam = default!;
     [Dependency] private readonly PhysicsSystem _physics = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
-    public Vector2? Coordinates;
-    [ValidatePrototypeId<EntityPrototype>]
-    private const string ShopId = "ActionElectroMouseShop";
     public override void Initialize()
     {
         base.Initialize();
@@ -346,7 +343,7 @@ public sealed partial class ElectroMouseSystem : EntitySystem
 
     private void OnMapInit(EntityUid uid, ElectroMouseComponent component, MapInitEvent args)
     {
-        _action.AddAction(uid, ref component.Action, ShopId);
+        _action.AddAction(uid, ref component.Action, component.ShopId);
     }
 
     private void OnInteract(EntityUid uid, ElectroMouseComponent component, InteractNoHandEvent args)
@@ -398,7 +395,7 @@ public sealed partial class ElectroMouseSystem : EntitySystem
         var mapPosition = xformSystem.GetWorldPosition(uid);
         var reactionBounds = new Box2(mapPosition - new Vector2(energy, energy), mapPosition + new Vector2(energy, energy));
 
-        var newPosition = Coordinates;
+        var newPosition = comp.Coordinates;
 
         newPosition = GetPositionFromRotation(reactionBounds, energy, uid);
 

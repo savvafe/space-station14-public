@@ -10,10 +10,6 @@
   displayName: store-currency-display-stolen-essence
   canWithdraw: false
 
-- type: currency
-  id: StolenEnergy
-  displayName: store-currency-display-stolen-energy
-  canWithdraw: false
 
 #debug
 - type: currency

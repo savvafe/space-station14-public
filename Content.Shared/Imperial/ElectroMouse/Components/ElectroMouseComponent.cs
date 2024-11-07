@@ -11,9 +11,16 @@ namespace Content.Shared.Imperial.ElectroMouse.Components;
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class ElectroMouseComponent : Component
 {
+    public Vector2? Coordinates;
+
+    [ValidatePrototypeId<EntityPrototype>]
+    public readonly string ShopId = "ActionElectroMouseShop";
+
     [DataField, ViewVariables(VVAccess.ReadWrite)]
     public string ElevationSound { get; set; } = "/Audio/Announcements/bloblarm.ogg";
+
     public AudioParams Params = AudioParams.Default.WithVolume(5f);
+
     public bool IsChanged = false;
 
     [DataField, ViewVariables(VVAccess.ReadWrite), AutoNetworkedField]
