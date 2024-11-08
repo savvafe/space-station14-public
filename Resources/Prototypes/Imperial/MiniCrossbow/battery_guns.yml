@@ -30,7 +30,9 @@
     rechargeCooldown: 4
     rechargeSound:
       path: /Audio/Weapons/drawbow2.ogg
+  - type: UseDelayOnShoot
   - type: UseDelay
+    delay: 4
   - type: BasicEntityAmmoProvider
     proto: BulletCrossbow
     capacity: 1
@@ -40,6 +42,3 @@
     steps: 2
     zeroVisible: true
   - type: Appearance
-  - type: UseDelayOnShoot
-  - type: UseDelay
-    delay: 4
