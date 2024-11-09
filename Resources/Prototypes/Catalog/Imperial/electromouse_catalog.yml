@@ -105,7 +105,7 @@
 - type: listing
   id: ElectromUpgrade
   name: Улучшения
-  description: Все ваши становятся в 2 раза лучше
+  description: Все ваши способности становятся в 2 раза лучше
   productAction: ActionElectroMouseUpgrade
   categories:
   - ElectromouseAbilities

@@ -168,7 +168,7 @@ public sealed partial class ElectroMouseSystem : EntitySystem
                 {
                     total += value;
                 }
-                if (total >= 50 || component.Energy <= 0)
+                if (total >= 30)
                 {
                     Spawn(component.SpawnOnDeathPrototype, Transform(uid).Coordinates);
                     QueueDel(uid);
@@ -203,11 +203,6 @@ public sealed partial class ElectroMouseSystem : EntitySystem
 
     private void OnDouble(EntityUid uid, ElectroMouseComponent component, ElectroMouseDoubleEvent args)
     {
-        if (component.Energy <= 100 || args.Handled)
-        {
-            _popup.PopupEntity("Недостаточно энергии", uid, uid);
-            return;
-        }
         var query = EntityQueryEnumerator<ElectroMouseComponent>();
         var quanity = 0;
 
@@ -224,6 +219,11 @@ public sealed partial class ElectroMouseSystem : EntitySystem
             component.Energy -= 300;
             component.BuyedDouble = true;
         }
+        if (component.Energy <= 100 || args.Handled)
+        {
+            _popup.PopupEntity("Недостаточно энергии", uid, uid);
+            return;
+        }
         args.Handled = true;
 
         AddEnergy(uid, component, -100);
@@ -234,7 +234,11 @@ public sealed partial class ElectroMouseSystem : EntitySystem
     {
         if (args.Handled || !_gameTiming.IsFirstTimePredicted)
             return;
-
+        if (!component.BuyedLightning)
+        {
+            component.Energy -= 200;
+            component.BuyedLightning = true;
+        }
         if (component.Energy <= 10)
         {
             _popup.PopupEntity("Недостаточно энергии", uid, uid);
@@ -248,11 +252,6 @@ public sealed partial class ElectroMouseSystem : EntitySystem
         }
         if (!TryComp<TransformComponent>(target, out var xform))
             return;
-        if (!component.BuyedLightning)
-        {
-            component.Energy -= 200;
-            component.BuyedLightning = true;
-        }
         args.Handled = true;
 
         AddEnergy(uid, component, -10);
@@ -290,15 +289,15 @@ public sealed partial class ElectroMouseSystem : EntitySystem
         args.Handled = true;
 
         var coords = _transform.GetMapCoordinates(uid);
-        if (component.Energy <= 20)
-        {
-            _popup.PopupEntity("Недостаточно энергии", uid, uid);
-            return;
-        }
         if (!component.BuyedEMP)
         {
             component.Energy -= 75;
             component.BuyedEMP = true;
+        }
+        if (component.Energy <= 20)
+        {
+            _popup.PopupEntity("Недостаточно энергии", uid, uid);
+            return;
         }
         _empSystem.EmpPulse(coords, component.EmpRadius, 10000, 120);
 
@@ -326,16 +325,15 @@ public sealed partial class ElectroMouseSystem : EntitySystem
 
         if (!component.CanAPC)
             component.CanAPC = true;
-
-        if (component.Energy <= 20)
-        {
-            _popup.PopupEntity("Недостаточно энергии", uid, uid);
-            return;
-        }
         if (!component.BuyedShield)
         {
             component.Energy -= 125;
             component.BuyedShield = true;
+        }
+        if (component.Energy <= 20)
+        {
+            _popup.PopupEntity("Недостаточно энергии", uid, uid);
+            return;
         }
         if (!HasComp<ReflectComponent>(uid))
         {
@@ -625,11 +623,6 @@ public sealed partial class ElectroMouseSystem : EntitySystem
         if (args.Handled)
             return;
 
-        if (component.Energy <= 25)
-        {
-            _popup.PopupEntity("Недостаточно энергии", uid, uid);
-            return;
-        }
 
         if (!component.CanBattery)
             component.CanBattery = true; //at first overload make can eat from laser guns
@@ -639,6 +632,11 @@ public sealed partial class ElectroMouseSystem : EntitySystem
         {
             component.Energy -= 50;
             component.BuyedOverload = true;
+        }
+        if (component.Energy <= 25)
+        {
+            _popup.PopupEntity("Недостаточно энергии", uid, uid);
+            return;
         }
         AddEnergy(uid, component, -25);
 
@@ -675,6 +673,11 @@ public sealed partial class ElectroMouseSystem : EntitySystem
         {
             component.Energy -= 100;
             component.BuyedHeal = true;
+        }
+        if (component.Energy <= 30)
+        {
+            _popup.PopupEntity("Недостаточно энергии", uid, uid);
+            return;
         }
         if (TryComp<DamageableComponent>(uid, out var damagecomp) && component.Energy >= 30)
         {

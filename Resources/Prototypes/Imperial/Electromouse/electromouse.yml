@@ -136,3 +136,4 @@
   - type: Insulated
   - type: Hunger
     starvingSlowdownModifier: 0
+  - type: NoSlip

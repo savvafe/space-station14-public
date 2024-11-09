@@ -8,7 +8,7 @@
     startAudio:
       path: /Audio/Announcements/aliens.ogg
     startDelay: 10
-    earliestStart: 50
+    earliestStart: 30
     minimumPlayers: 25
     weight: 5
     duration: 1
