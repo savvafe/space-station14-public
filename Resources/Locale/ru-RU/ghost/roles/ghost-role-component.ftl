@@ -211,5 +211,5 @@ ghost-role-information-syndicate-monkey-reinforcement-description = Кому-т�
 ghost-role-information-syndicate-monkey-reinforcement-rules = Вы - антагонист. Работайте с теми, кто вас вызвал, и не причиняйте им вреда.
 
 ghost-role-information-syndicate-artifact-name = разумный артефакт
-ghost-role-information-syndicate-monkey-reinforcement-description = Реализуйте свои жуткие прихоти.
+ghost-role-information-artifact-description = Реализуйте свои жуткие прихоти.
                                                                     Насильно активируйте свои узлы во благо или во зло.
