@@ -1,0 +1,120 @@
+- type: accessLevel
+  id: Ninja
+  name: id-card-access-level-ninja
+
+- type: statusIcon
+  parent: JobIcon
+  id: SpiderClanNinjaJobIcon
+  icon:
+    sprite: /Textures/Imperial/SpiderClan/Misc/JobIcon.rsi
+    state: Ninja
+
+- type: entity
+  parent: IDCardStandard
+  id: NinjaIDCard
+  name: Spider Clan card
+  description: It looks quite unusual. When you hold it, you feel a tingling sensation.
+  suffix: SpiderClan
+  components:
+  - type: Sprite
+    sprite: Imperial/SpiderClan/Misc/Card.rsi
+    layers:
+    - state: spaceninja
+  - type: Clothing
+    slots:
+    - idcard
+    sprite: Imperial/SpiderClan/Misc/Card.rsi
+  - type: IdCard
+    jobTitle: Ниндзя Клана Паука
+    jobIcon: SpiderClanNinjaJobIcon
+  - type: Access
+    tags:
+    - Ninja
+    - SyndicateAgent
+  - type: AgentIDCard
+    icons:
+    # TODO figure out a better way of doing this.
+    # Probably by adding a bool or icon-category data-field to the icon prototype?
+    - JobIconDetective
+    - JobIconQuarterMaster
+    - JobIconBotanist
+    - JobIconBoxer
+    - JobIconAtmosphericTechnician
+    - JobIconNanotrasen
+    - JobIconPrisoner
+    - JobIconJanitor
+    - JobIconChemist
+    - JobIconStationEngineer
+    - JobIconSecurityOfficer
+    - JobIconChiefMedicalOfficer
+    - JobIconRoboticist
+    - JobIconChaplain
+    - JobIconLawyer
+    - JobIconUnknown
+    - JobIconLibrarian
+    - JobIconCargoTechnician
+    - JobIconScientist
+    - JobIconResearchAssistant
+    - JobIconGeneticist
+    - JobIconClown
+    - JobIconCaptain
+    - JobIconHeadOfPersonnel
+    - JobIconVirologist
+    - JobIconShaftMiner
+    - JobIconPassenger
+    - JobIconChiefEngineer
+    - JobIconBartender
+    - JobIconHeadOfSecurity
+    - JobIconMedicalDoctor
+    - JobIconParamedic
+    - JobIconChef
+    - JobIconWarden
+    - JobIconResearchDirector
+    - JobIconMime
+    - JobIconMusician
+    - JobIconReporter
+    - JobIconPsychologist
+    - JobIconMedicalIntern
+    - JobIconTechnicalAssistant
+    - JobIconServiceWorker
+    - JobIconSecurityCadet
+    - JobIconZookeeper
+    - JobIconSeniorPhysician
+    - JobIconSeniorOfficer
+    - JobIconSeniorEngineer
+    - JobIconSeniorResearcher
+    - JobIconCoroner
+    - JobIconVisitor
+    - SpiderClanNinjaJobIcon
+  - type: ActivatableUI
+    key: enum.AgentIDCardUiKey.Key
+    inHandsOnly: true
+  - type: Tag
+    tags:
+    - DoorBumpOpener
+  - type: ChameleonClothing
+    slot: [idcard]
+    default: NinjaIDCard
+  - type: UserInterface
+    interfaces:
+      - key: enum.AgentIDCardUiKey.Key
+        type: AgentIDCardBoundUserInterface
+      - key: enum.ChameleonUiKey.Key
+        type: ChameleonBoundUserInterface
+
+- type: entity
+  id: NinjaLocker
+  parent: LockerBaseSecure
+  name: Ninja Locker
+  suffix: SpiderClan
+  description: This is where the ninjas keep their equipment.
+  components:
+  - type: Sprite
+    sprite: Imperial/SpiderClan/Misc/Locker.rsi
+  - type: Appearance
+  - type: EntityStorageVisuals
+    stateBaseClosed: ninja
+    stateDoorOpen: ninja_open
+    stateDoorClosed: ninja_door
+  - type: AccessReader
+    access: [["Ninja"]]
