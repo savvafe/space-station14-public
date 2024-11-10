@@ -36,12 +36,12 @@
         Poison: 10
     forceSound: true
   - type: StunOnCollide
-    stunAmount: 1
-    knockdownAmount: 1
+    stunAmount: 2
+    knockdownAmount: 2
 
 - type: entity
   id: BulletImpactEffectGreenDisabler
-  categories: [ HideSpawnMenu ]
+  noSpawn: true
   components:
   - type: TimedDespawn
     lifetime: 0.2

@@ -41,7 +41,6 @@ public sealed partial class RevenantSystem
     [Dependency] private readonly MobThresholdSystem _mobThresholdSystem = default!;
     [Dependency] private readonly GhostSystem _ghost = default!;
     [Dependency] private readonly TileSystem _tile = default!;
-
     private void InitializeAbilities()
     {
         SubscribeLocalEvent<RevenantComponent, InteractNoHandEvent>(OnInteract);

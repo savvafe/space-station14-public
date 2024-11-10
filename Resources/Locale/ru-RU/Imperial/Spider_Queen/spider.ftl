@@ -76,7 +76,7 @@ ent-WallWebDurable = прочная паутинная стена
     .suffix = Улей пауков
 
 ent-EggshellsSpider = скорлупа
-    .desc = Ты ходишь по ней, приятель.	
+    .desc = Ты ходишь по ней, приятель.
     .suffix = Улей пауков
 
 spider-split = Ядовитый плевой
@@ -108,10 +108,10 @@ spider-spawn-wall2 = Создать стену
 spider-spawn-wall3 = Создать прочную стену
 
 ent-ActionSpiderWeb = Пустить паутину
-    .desc = Создаёт паутину, которая замедляет вашу добычу. 
-	
-ent-ShardCrystalBlueXeno = осколок синего хрусталя	
-    .desc = Маленький кусочек хрусталя.  
+    .desc = Создаёт паутину, которая замедляет вашу добычу.
+
+ent-ShardCrystalBlueXeno = осколок синего хрусталя
+    .desc = Маленький кусочек хрусталя.
 
 spider-spawn-smallspider = Выпустить паучат
 spider-spawn-smallspider-desc = Выпускает трёх маленьких пауков, которые атакуют вашу добычу. Пауки исчезают через 20 секунд.
