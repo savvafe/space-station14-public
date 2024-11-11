@@ -48,7 +48,7 @@
       steps:
       - component: PayloadTrigger
         store: payloadTrigger
-        name: Trigger
+        name: триггер
         doAfter: 0.5
 
   - node: caseWithTrigger
@@ -68,7 +68,7 @@
       steps:
       - tag: Payload
         store: payload
-        name: Payload
+        name: химический заряд
         doAfter: 0.5
 
   - node: grenade
