@@ -65,8 +65,10 @@
     drawdepth: Mobs
     sprite: Imperial/backrooms/mobs/smiler.rsi
     layers:
-      - map: [ "enum.DamageStateVisualLayers.Base" ]
-        state: alive
+      - state: alive
+        map: [ "enum.DamageStateVisualLayers.Base" ]
+      - state: alive_unshaded
+        shader: unshaded
   - type: PointLight
     radius: 1.2
     energy: 2.1
@@ -92,8 +94,8 @@
     animation: WeaponArcBite
     damage:
       types:
-        Slash: 10
-        Structural: 10
+        Slash: 12
+        Structural: 20
   - type: MeleeChemicalInjector
     solution: bloodstream
     transferAmount: 5
@@ -158,7 +160,7 @@
     animation: WeaponArcBite
     damage:
       types:
-        Piercing: 10
+        Piercing: 12
         Structural: 20
   - type: NpcFactionMember
     factions:
