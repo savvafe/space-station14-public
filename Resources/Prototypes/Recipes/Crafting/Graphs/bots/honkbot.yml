@@ -54,7 +54,7 @@
         icon:
           sprite: Objects/Misc/stamps.rsi
           state: stamp-clown
-        name: clown's rubber stamp
+        name: печать клоуна
         doAfter: 2
       - tag: CluwneHorn
         icon:

@@ -21,7 +21,7 @@
   objectType: Item
   
 - type: construction
-  name: Суперкомкатный ИИ чип
+  name: Суперкомпактный ИИ чип
   id: PotatoAIChip
   graph: PotatoAIChip
   startNode: start

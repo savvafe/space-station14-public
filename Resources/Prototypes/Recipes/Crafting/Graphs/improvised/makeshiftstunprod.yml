@@ -11,17 +11,17 @@
             - material: Cable
               amount: 15
             - tag: DrinkSpaceGlue
-              name: Drink Space Glue
+              name: тюбик космического клея
               icon:
                 sprite: Objects/Consumable/Drinks/glue-tube.rsi
                 state: icon
             - tag: PowerCellSmall
-              name: Power Cell Small
+              name: батарею малой емкости
               icon:
                 sprite: Objects/Power/power_cells.rsi
                 state: small
             - tag: CapacitorStockPart
-              name: Capacitor Stock Part
+              name: конденсатор
               icon:
                 sprite: Objects/Misc/stock_parts.rsi
                 state: capacitor

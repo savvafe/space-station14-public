@@ -305,7 +305,7 @@
   mirror: DisposalJunction
 
 - type: construction
-  name: Y-развязка утилизационной трубы
+  name: Альтернативная развязка утилизационной трубы
   description: Трехсторонняя развязка с альтернативным местом выхода.
   id: DisposalYJunction
   graph: DisposalPipe
@@ -386,7 +386,7 @@
 
 # ATMOS PIPES
 - type: construction
-  name: Половина трубы.
+  name: Труба половинчатая
   id: GasPipeHalf
   description: Половина трубы.
   graph: GasPipe
@@ -414,7 +414,7 @@
     state: pipeStraight
 
 - type: construction
-  name: Изгиб трубы
+  name: Труба изогнутая
   id: GasPipeBend
   description: Труба, согнутая под прямым углом.
   graph: GasPipe
@@ -428,7 +428,7 @@
     state: pipeBend
 
 - type: construction
-  name: Т-образная труба
+  name: Труба Т-образная
   id: GasPipeTJunction
   description: Т-образный сегмент трубы
   graph: GasPipe
@@ -442,7 +442,7 @@
     state: pipeTJunction
 
 - type: construction
-  name: Четверная труба
+  name: Труба четверная
   id: GasPipeFourway
   description: Сегмент трубы с четыремя соединениями.
   graph: GasPipe
