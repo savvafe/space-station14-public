@@ -199,7 +199,7 @@
     allowSpeech: true
     makeSentient: true
     name: ghost-role-information-syndicate-artifact-name # imperial
-    description: ghost-role-information-syndicate-monkey-reinforcement-description # imperial
+    description: ghost-role-information-artifact-description # imperial
   - type: GhostTakeoverAvailable
   - type: MovementSpeedModifier
     baseWalkSpeed: 0.25
