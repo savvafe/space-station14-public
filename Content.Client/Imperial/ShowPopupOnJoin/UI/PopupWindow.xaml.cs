@@ -8,9 +8,7 @@ using Robust.Client.UserInterface.CustomControls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Configuration;
 using Robust.Shared.Utility;
-using System.Diagnostics;
 using System.Linq;
-using System.Security.Policy;
 
 namespace Content.Client.Imperial.ShowPopupOnJoin.UI;
 
@@ -20,23 +18,23 @@ public sealed partial class PopupWindow : DefaultWindow
     [Dependency] private readonly IConfigurationManager _configManager = default!;
     [Dependency] private readonly IUriOpener _uriOpener = default!;
 
+    const int QRPixelSize = 10;
+
     public PopupWindow(SharedShowPopupOnJoin.PopupContentMessage content)
     {
         RobustXamlLoader.Load(this);
         IoCManager.InjectDependencies(this);
 
         Title = content.Title;
-        TextContent.SetMessage(content.Content);
+        TextContent.SetMessage(FormattedMessage.FromMarkup(content.Content));
 
-        var qrData =
-            content.QRData
-            .Split("|")
-            .Select(line =>
-                line.Select(element => element == '1')
-            );
+        Resizable = false;
 
+        var lines = content.QRData.Split('|');
+        var imageSize = lines.First().Length;
+        SetWidth = imageSize * QRPixelSize + 25;
 
-        foreach (var line in qrData)
+        foreach (var line in lines)
         {
             var horizontalBox = new BoxContainer()
             {
@@ -46,10 +44,10 @@ public sealed partial class PopupWindow : DefaultWindow
             {
                 var pixel = new PanelContainer()
                 {
-                    SetSize = new(10, 10),
+                    SetSize = new(QRPixelSize, QRPixelSize),
                     PanelOverride = new StyleBoxFlat
                     {
-                        BackgroundColor = element ? Color.White : Color.Black
+                        BackgroundColor = element == '1' ? Color.White : Color.Black,
                     }
                 };
                 horizontalBox.AddChild(pixel);
@@ -61,7 +59,7 @@ public sealed partial class PopupWindow : DefaultWindow
 
         OpenLinkButton.OnPressed += NeverShow;
         OpenLinkButton.OnPressed +=
-            e => _uriOpener.OpenUri(content.Link);
+            e => _uriOpener.OpenUri(_configManager.GetCVar(ICCVars.ShowPopupOnJoin.Link));
     }
 
     void NeverShow(BaseButton.ButtonEventArgs e)

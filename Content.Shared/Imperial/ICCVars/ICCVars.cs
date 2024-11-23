@@ -21,13 +21,13 @@ public sealed class ICCVars
         // MAYBE: Просто синхронизировать данные CVar-ы и не обрабатывать запрос с реквестом popup данных
 
         public static readonly CVarDef<string>
-            Title = CVarDef.Create("imperial.show_popup_on_join.title", "popup-title", CVar.SERVERONLY | CVar.ARCHIVE);
+            Title = CVarDef.Create("imperial.show_popup_on_join.title", "", CVar.SERVERONLY | CVar.ARCHIVE);
 
         public static readonly CVarDef<string>
-            Content = CVarDef.Create("imperial.show_popup_on_join.content", "popup-content", CVar.SERVERONLY | CVar.ARCHIVE);
+            Content = CVarDef.Create("imperial.show_popup_on_join.content", "", CVar.SERVERONLY | CVar.ARCHIVE);
 
         public static readonly CVarDef<string>
-            Link = CVarDef.Create("imperial.show_popup_on_join.link", "popup-link", CVar.SERVERONLY | CVar.ARCHIVE);
+            Link = CVarDef.Create("imperial.show_popup_on_join.link", "", CVar.SERVERONLY | CVar.ARCHIVE);
 
         /// <summary>
         /// Изображение qr кода формата: "1111|1001|1011|1111"
