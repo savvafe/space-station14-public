@@ -10,6 +10,7 @@ using Content.Server.Database;
 using Content.Server.Discord;
 using Content.Server.EUI;
 using Content.Server.GhostKick;
+using Content.Server.Imperial.ShowPopupOnJoin;
 using Content.Server.Info;
 using Content.Server.Maps;
 using Content.Server.MoMMI;
@@ -60,6 +61,7 @@ namespace Content.Server.IoC
             IoCManager.Register<DiscordWebhook>();
             IoCManager.Register<ServerDbEntryManager>();
             IoCManager.Register<SponsorsManager>(); // Corvax-Sponsors
+            IoCManager.Register<ShowPopupOnJoin>(); // ImperialSpace ShowPopupOnJoin
         }
     }
 }

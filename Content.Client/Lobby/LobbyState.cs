@@ -1,5 +1,6 @@
 using Content.Client.Audio;
 using Content.Client.GameTicking.Managers;
+using Content.Client.Imperial.ShowPopupOnJoin;
 using Content.Client.LateJoin;
 using Content.Client.Lobby.UI;
 using Content.Client.Message;
@@ -32,6 +33,7 @@ namespace Content.Client.Lobby
         [Dependency] private readonly IGameTiming _gameTiming = default!;
         [Dependency] private readonly IVoteManager _voteManager = default!;
         [Dependency] private readonly IConfigurationManager _configurationManager = default!;
+        [Dependency] private readonly ShowPopupOnJoin _showPopupOnJoin = default!; // ImperialSpace ShowPopupOnJoin
 
         [ViewVariables] private CharacterSetupGui? _characterSetup;
 
@@ -76,10 +78,13 @@ namespace Content.Client.Lobby
 
             LayoutContainer.SetAnchorPreset(_lobby, LayoutContainer.LayoutPreset.Wide);
             //_lobby.ServerName.Text = _baseClient.GameInfo?.ServerName; //The eye of refactor gazes upon you...
-            // Imperial Space Start
+            // ImperialSpace Start
             var cfgMan = IoCManager.Resolve<IConfigurationManager>();
             _lobby.ServerName.Text = cfgMan.GetCVar(CCVars.LobbyName);
-            // Imperial Space End
+            // ImperialSpace End
+            // ImperialSpace ShowPopupOnJoin Start
+            _showPopupOnJoin.Open();
+            // ImperialSpace ShowPopupOnJoin End
             UpdateLobbyUi();
 
             _lobby.CharacterPreview.CharacterSetupButton.OnPressed += OnSetupPressed;
