@@ -7,7 +7,7 @@ using Content.Client.Flash;
 using Content.Client.Fullscreen;
 using Content.Client.GhostKick;
 using Content.Client.Guidebook;
-using Content.Client.Imperial.ShowPopupOnJoin;
+using Content.Client.Imperial.ShowPopupOnJoin; // Imperial ShowPopupOnJoin
 using Content.Client.Info;
 using Content.Client.Input;
 using Content.Client.IoC;
