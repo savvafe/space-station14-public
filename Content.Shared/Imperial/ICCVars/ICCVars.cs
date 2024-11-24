@@ -7,35 +7,18 @@ namespace Content.Shared.Imperial.ICCVar;
 public sealed class ICCVars
 {
     /// <summary>
-    /// Конфигурабельное окошко при попадании в лобби
+    /// Определяет, активна ли система ShowPopupOnJoin
     /// </summary>
-    [CVarDefs]
-    public static class ShowPopupOnJoin
-    {
-        /// <summary>
-        /// Показывать ли окошко (на клиенте)
-        /// </summary>
-        public static readonly CVarDef<bool>
-            Enabled = CVarDef.Create("imperial.show_popup_on_join.enabled", true, CVar.CLIENTONLY | CVar.ARCHIVE);
+    public static readonly CVarDef<bool>
+        ShowPopupOnJoinEnabled = CVarDef.Create("imperial.show_popup_on_join", false, CVar.SERVER | CVar.REPLICATED);
 
-        // MAYBE: Просто синхронизировать данные CVar-ы и не обрабатывать запрос с реквестом popup данных
+    /// <summary>
+    /// Список названий popup-ов, которые необходимо отобразить игроку, разделённых через запятую
+    /// </summary>
+    public static readonly CVarDef<string>
+        PopupsOnJoinToShow = CVarDef.Create("imperial.show_popup_on_join_list", "", CVar.SERVER | CVar.REPLICATED);
 
-        public static readonly CVarDef<string>
-            Title = CVarDef.Create("imperial.show_popup_on_join.title", "", CVar.SERVERONLY | CVar.ARCHIVE);
-
-        public static readonly CVarDef<string>
-            Content = CVarDef.Create("imperial.show_popup_on_join.content", "", CVar.SERVERONLY | CVar.ARCHIVE);
-
-        public static readonly CVarDef<string>
-            Link = CVarDef.Create("imperial.show_popup_on_join.link", "", CVar.SERVERONLY | CVar.ARCHIVE);
-
-        /// <summary>
-        /// Изображение qr кода формата: "1111|1001|1011|1111"
-        /// </summary>
-        public static readonly CVarDef<string>
-            QR = CVarDef.Create("imperial.show_popup_on_join.qr", "", CVar.SERVERONLY | CVar.ARCHIVE);
-    }
-    /// Enables footprints
+    /// Enables footprints 
     /// </summary>
     public static readonly CVarDef<bool>
         FootPrintsEnabled = CVarDef.Create("imperial.footprints_enabled", true, CVar.SERVERONLY);

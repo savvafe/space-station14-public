@@ -138,7 +138,6 @@ namespace Content.Client.Entry
             _extendedDisconnectInformation.Initialize();
             _jobRequirements.Initialize();
             _playbackMan.Initialize();
-            _showPopupOnJoin.Initialize();
 
             //AUTOSCALING default Setup!
             _configManager.SetCVar("interface.resolutionAutoScaleUpperCutoffX", 1080);

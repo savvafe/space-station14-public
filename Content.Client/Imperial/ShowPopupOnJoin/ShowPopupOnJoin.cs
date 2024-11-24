@@ -1,10 +1,12 @@
+using Content.Client.Imperial.ShowPopupOnJoin.Prototypes;
 using Content.Client.Imperial.ShowPopupOnJoin.UI;
 using Content.Shared.CCVar;
 using Content.Shared.Imperial.ICCVar;
-using Content.Shared.Imperial.ShowPopupOnJoin;
 using Robust.Client.UserInterface.CustomControls;
 using Robust.Shared.Configuration;
+using Robust.Shared.ContentPack;
 using Robust.Shared.Network;
+using Robust.Shared.Prototypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,24 +15,31 @@ using System.Threading.Tasks;
 
 namespace Content.Client.Imperial.ShowPopupOnJoin;
 
-public sealed class ShowPopupOnJoin : SharedShowPopupOnJoin
+public sealed class ShowPopupOnJoin
 {
     [Dependency] private readonly IConfigurationManager _configManager = default!;
-    [Dependency] private readonly INetManager _netManager = default!;
-    public void Initialize()
-    {
-        _netManager.RegisterNetMessage<RequestPopupContentMessage>();
-        _netManager.RegisterNetMessage<PopupContentMessage>(OnPopupContentMessage);
-    }
-
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     public void Open()
     {
-        if (!_configManager.GetCVar(ICCVars.ShowPopupOnJoin.Enabled))
+        if (!_configManager.GetCVar(ICCVars.ShowPopupOnJoinEnabled))
             return;
 
-        _netManager.ClientSendMessage(new RequestPopupContentMessage());
+        var nextPopup = GetNextPopup();
+
+        if (nextPopup is not null)
+            new PopupWindow(nextPopup).OpenCentered();
     }
 
-    void OnPopupContentMessage(PopupContentMessage message) =>
-        new PopupWindow(message).OpenCentered();
+    PopupWindowPrototype? GetNextPopup()
+    {
+        var popupsToShow = _configManager.GetCVar(ICCVars.PopupsOnJoinToShow).Split(',', StringSplitOptions.RemoveEmptyEntries);
+        var readedPopups = PopupWindow.GetReaded();
+
+        foreach (var popup in popupsToShow)
+            if (!readedPopups.Contains(popup))
+                if (_prototypeManager.TryIndex<PopupWindowPrototype>(popup, out var proto))
+                    return proto;
+
+        return null;
+    }
 }

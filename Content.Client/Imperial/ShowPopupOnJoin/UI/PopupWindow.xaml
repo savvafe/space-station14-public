@@ -3,7 +3,7 @@
         <BoxContainer>
             <RichTextLabel Name="TextContent"/>
         </BoxContainer>
-        <BoxContainer Orientation="Vertical" HorizontalAlignment="Center" Name="QRContainer"/>
+        <TextureRect HorizontalAlignment="Center"  Name="QRImage"/>
         <BoxContainer Orientation="Horizontal">
             <Button Name="NeverShowButton" Text="{Loc ui-never-show}" HorizontalAlignment="Left"/>
             <Button Name="OpenLinkButton" Text="{Loc ui-open-in-browser}" HorizontalAlignment="Right"/>
