@@ -35,3 +35,54 @@
     blockSlots: NONE
   - type: InjectableSolution
     solution: ammo
+
+- type: entity
+  id: BulletSubmachine
+  name: bullet (.35 MP-9)
+  parent: BaseBullet
+  categories: [ HideSpawnMenu ]
+  noSpawn: true
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 5.4
+
+- type: entity
+  id: BulletArmorPiercingSubmachine
+  name: bullet (.35 MP-9)
+  parent: BaseBullet
+  categories: [ HideSpawnMenu ]
+  noSpawn: true
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 9.4
+
+- type: entity
+  id: SubmachineBulletMercury
+  name: bullet Agram (9x21 M)
+  parent: BaseBullet
+  noSpawn: true
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 2.9
+  - type: SolutionContainerManager
+    solutions:
+      ammo:
+        maxVol: 15
+        reagents:
+          - ReagentId: Mercury
+            Quantity: 0.63
+  - type: RefillableSolution
+    solution: ammo
+  - type: DrainableSolution
+    solution: ammo
+  - type: SolutionInjectOnCollide
+    transferAmount: 15
+    blockSlots: NONE
+  - type: InjectableSolution
+    solution: ammo
