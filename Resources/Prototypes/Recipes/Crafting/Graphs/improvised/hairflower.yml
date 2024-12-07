@@ -7,7 +7,7 @@
         - to: hairflower
           steps:
             - tag: Flower # TODO change to "RedFlower" or "Poppy" tag, so you cant make red flower from bluesyellow etc., when it will be
-              name: flower
+              name: цветок
               icon:
                 sprite: Objects/Specific/Hydroponics/poppy.rsi
                 state: produce

@@ -1,0 +1,1 @@
+construction-step-condition-no-unstackable-in-tile = Не должно размещаться на плитке

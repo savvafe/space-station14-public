@@ -1,5 +1,5 @@
 - type: entity
-  parent: ClothingOuterWinterCoatToggleable
+  parent: ClothingOuterWinterCoat
   id: CentComEliteCoat
   name: Elite CENTCOM Women's Winter coat
   suffix: Vl, ЦентКом

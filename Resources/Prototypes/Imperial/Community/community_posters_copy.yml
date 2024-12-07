@@ -348,3 +348,12 @@
   components:
   - type: Sprite
     state: Willy_Bown_1
+
+- type: entity
+  parent: CommunityPosterBase
+  id: pressf6151_1
+  name: "pressf6151_1"
+  description: "pressf6151_1"
+  components:
+  - type: Sprite
+    state: pressf6151_1

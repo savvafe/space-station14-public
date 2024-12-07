@@ -15,6 +15,9 @@
         },
         {
             "name": "long-range"
+        },
+        {
+            "name": "mag-0"
         }
     ]
 }

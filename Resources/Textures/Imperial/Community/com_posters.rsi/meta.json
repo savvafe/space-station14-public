@@ -39,6 +39,7 @@
         { "name": "Willy_Bown_1" },
         { "name": "community_poster_spawner" },
         { "name": "community_painting_spawner" },
-        { "name": "community_poster_illegal_spawner" }
+        { "name": "community_poster_illegal_spawner" },
+        { "name": "pressf6151_1"}
     ]
 }

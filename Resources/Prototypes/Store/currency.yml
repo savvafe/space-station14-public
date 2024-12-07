@@ -1,7 +1,7 @@
 - type: currency
   id: Telecrystal
   displayName: store-currency-display-telecrystal
-  cash: 
+  cash:
     1: Telecrystal1
   canWithdraw: true
 
@@ -9,6 +9,7 @@
   id: StolenEssence
   displayName: store-currency-display-stolen-essence
   canWithdraw: false
+
 
 #debug
 - type: currency

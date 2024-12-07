@@ -1,0 +1,71 @@
+- type: accessLevel
+  id: Ninja
+  name: id-card-access-level-ninja
+
+- type: statusIcon
+  parent: JobIcon
+  id: SpiderClanNinjaJobIcon
+  icon:
+    sprite: /Textures/Imperial/SpiderClan/Misc/JobIcon.rsi
+    state: Ninja
+
+- type: statusIcon
+  parent: JobIcon
+  id: EmptyJobIcon
+  icon:
+    sprite: /Textures/Imperial/SpiderClan/Misc/EmptyJobIcon.rsi
+    state: Empty
+
+- type: entity
+  parent: IDCardStandard
+  id: NinjaIDCard
+  name: Spider Clan card
+  description: It looks quite unusual. When you hold it, you feel a tingling sensation.
+  suffix: Crook, SpiderClan
+  components:
+  - type: Sprite
+    sprite: Imperial/SpiderClan/Misc/Card.rsi
+    layers:
+    - state: spaceninja
+  - type: Clothing
+    slots:
+    - idcard
+    sprite: Imperial/SpiderClan/Misc/Card.rsi
+  - type: IdCard
+    jobTitle: Ниндзя Клана Паука
+    jobIcon: SpiderClanNinjaJobIcon
+  - type: Access
+    tags:
+    - Ninja
+    - SyndicateAgent
+  - type: AgentIDCard
+    icons:
+    - SpiderClanNinjaJobIcon
+    - EmptyJobIcon
+  - type: ActivatableUI
+    key: enum.AgentIDCardUiKey.Key
+    inHandsOnly: true
+  - type: Tag
+    tags:
+    - DoorBumpOpener
+  - type: UserInterface
+    interfaces:
+      - key: enum.AgentIDCardUiKey.Key
+        type: AgentIDCardBoundUserInterface
+
+- type: entity
+  id: NinjaLocker
+  parent: LockerBaseSecure
+  name: Ninja Locker
+  suffix: Crook, SpiderClan
+  description: This is where the ninjas keep their equipment.
+  components:
+  - type: Sprite
+    sprite: Imperial/SpiderClan/Misc/Locker.rsi
+  - type: Appearance
+  - type: EntityStorageVisuals
+    stateBaseClosed: ninja
+    stateDoorOpen: ninja_open
+    stateDoorClosed: ninja_door
+  - type: AccessReader
+    access: [["Ninja"]]

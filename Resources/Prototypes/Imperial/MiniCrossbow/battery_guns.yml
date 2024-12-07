@@ -1,4 +1,3 @@
-
 - type: entity
   name: energy-crossbow
   parent: BaseWeaponBatterySmall
@@ -28,10 +27,12 @@
     soundGunshot:
       path: /Audio/Imperial/laser.ogg
   - type: RechargeBasicEntityAmmo
-    rechargeCooldown: 3
+    rechargeCooldown: 4
     rechargeSound:
       path: /Audio/Weapons/drawbow2.ogg
+  - type: UseDelayOnShoot
   - type: UseDelay
+    delay: 4
   - type: BasicEntityAmmoProvider
     proto: BulletCrossbow
     capacity: 1

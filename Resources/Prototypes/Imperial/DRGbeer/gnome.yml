@@ -157,3 +157,7 @@
       Unsexed: GnomeSounds
     wilhelmProbability: 0.001
   - type: Unrevivable
+  - type: UserInterface
+    interfaces:
+    - key: enum.StrippingUiKey.Key
+      type: StrippableBoundUserInterface
